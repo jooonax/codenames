@@ -1,13 +1,14 @@
-import { useState } from 'react'
-import './App.css'
+import React, { useState, useEffect } from 'react';
 import {ChatMessage} from "./common/models";
-import SockJsClient from 'react-stomp';
 
-function App() {
+const App: React.FC = () => {
   const [username, setUsername] = useState('');
-  const [team, setTeam] = useState('');
+  const [team, setTeam] = useState('noTeam');
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
+  const [roomName, setRoomName] = useState('');
+  const [playersInRoom, setPlayersInRoom] = useState<string[]>([]);
+  const [socket, setSocket] = useState<WebSocket | null>(null);
 
   const handleUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -22,22 +23,92 @@ function App() {
   };
 
   const sendMessage = () => {
-    clientRef.current?.sendMessage('/app/chat', JSON.stringify({ sender: username, content: newMessage }));
-    setNewMessage('');
+    if (socket && username && newMessage) {
+      const message: ChatMessage = { sender: username, content: newMessage, team: team };
+      socket.send(JSON.stringify(message));
+      setNewMessage('');
+    }
   };
 
-  const clientRef = React.useRef<SockJsClient>(null);
+  /*useEffect(() => {
+    const newSocket = new WebSocket('ws://localhost:8080/chat'); // Replace with your WebSocket endpoint
 
-  useEffect(() => {
-    if (username && team) {
-      clientRef.current?.sendMessage('/app/join', JSON.stringify({ sender: username, content: team }));
-    }
-  }, [username, team]);
+    newSocket.onopen = () => {
+      if (username && roomName) {
+        const joinMessage: ChatMessage = { sender: username, content: roomName, team: team };
+        newSocket.send(JSON.stringify(joinMessage));
+      }
+    };
+
+    newSocket.onmessage = (event) => {
+      const data: ChatMessage = JSON.parse(event.data);
+      if (data.content.startsWith("Players in room")) {
+        const players = data.content.split(":")[1].trim().split(",").map(p => p.trim());
+        setPlayersInRoom(players);
+      } else {
+        setMessages((prevMessages) => [...prevMessages, data]);
+      }
+    };
+
+    newSocket.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+
+    newSocket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    return () => {
+      newSocket.close();
+    };
+  }, [username, roomName]);*/
+
+  const join = () => {
+    const newSocket = new WebSocket('ws://localhost:8080/chat'); // Replace with your WebSocket endpoint
+
+    newSocket.onopen = () => {
+      if (username && roomName) {
+        const joinMessage: ChatMessage = { sender: username, content: roomName, team: team };
+        newSocket.send(JSON.stringify(joinMessage));
+      }
+    };
+
+    newSocket.onmessage = (event) => {
+      const data: ChatMessage = JSON.parse(event.data);
+      if (data.content.startsWith("Players in room")) {
+        const players = data.content.split(":")[1].trim().split(",").map(p => p.trim());
+        setPlayersInRoom(players);
+      } else {
+        setMessages((prevMessages) => [...prevMessages, data]);
+      }
+    };
+
+    newSocket.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+
+    newSocket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    return () => {
+      newSocket.close();
+    };
+  }
 
   return (
     <div>
       <div>
+        <h3>Players in the room:</h3>
+        <ul>
+          {playersInRoom.map((player) => (
+            <li key={player}>{player}</li>
+          ))}
+        </ul>
+      </div>
+      <div>
         <input type="text" placeholder="Username" value={username} onChange={handleUsername} />
+        <button onClick={join}>Join</button>
         <select value={team} onChange={handleTeam}>
           <option value="">Choose a team</option>
           <option value="Red">Red</option>
@@ -53,17 +124,8 @@ function App() {
         <input type="text" placeholder="Type a message..." value={newMessage} onChange={handleNewMessage} />
         <button onClick={sendMessage}>Send</button>
       </div>
-      <SockJsClient
-        url="/chat"
-        topics={['/topic/room']}
-        onMessage={(msg) => {
-          const data: ChatMessage = JSON.parse(msg.body);
-          setMessages((prevMessages) => [...prevMessages, data]);
-        }}
-        ref={clientRef}
-      />
     </div>
   );
-}
+};
 
-export default App
+export default App;
