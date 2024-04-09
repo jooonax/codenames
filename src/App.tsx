@@ -1,129 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import {ChatMessage} from "./common/models";
+import React, { useEffect, useState } from 'react';
+import SockJS from 'sockjs-client';
+import { over } from 'stompjs';
 
 const App: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [team, setTeam] = useState('noTeam');
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [newMessage, setNewMessage] = useState('');
-  const [roomName, setRoomName] = useState('');
-  const [playersInRoom, setPlayersInRoom] = useState<string[]>([]);
-  const [socket, setSocket] = useState<WebSocket | null>(null);
 
-  const handleUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(event.target.value);
-  };
+  const [messages, setMessages] = useState<string[]>([]);
+  const [input, setInput] = useState<string>("");
 
-  const handleTeam = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setTeam(event.target.value);
-  };
+  useEffect(() => {
+    const socket = new WebSocket('ws://localhost:35729/chat');
 
-  const handleNewMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewMessage(event.target.value);
-  };
+    socket.onopen = () => {
+      console.log('Connected to WebSocket server');
+      socket.send('Hello, server!');
+    };
+
+    socket.onmessage = (event) => {
+      setMessages([...messages, JSON.parse(event.data).command]);
+      console.log(event);
+    };
+
+    socket.onclose = () => {
+      console.log('Disconnected from WebSocket server');
+    };
+
+
+  }, []);
 
   const sendMessage = () => {
-    if (socket && username && newMessage) {
-      const message: ChatMessage = { sender: username, content: newMessage, team: team };
-      socket.send(JSON.stringify(message));
-      setNewMessage('');
-    }
-  };
-
-  /*useEffect(() => {
-    const newSocket = new WebSocket('ws://localhost:8080/chat'); // Replace with your WebSocket endpoint
-
-    newSocket.onopen = () => {
-      if (username && roomName) {
-        const joinMessage: ChatMessage = { sender: username, content: roomName, team: team };
-        newSocket.send(JSON.stringify(joinMessage));
-      }
+    const socket = new WebSocket('ws://localhost:35729/chat');
+    socket.onopen = () => {
+      socket.send(input);
     };
-
-    newSocket.onmessage = (event) => {
-      const data: ChatMessage = JSON.parse(event.data);
-      if (data.content.startsWith("Players in room")) {
-        const players = data.content.split(":")[1].trim().split(",").map(p => p.trim());
-        setPlayersInRoom(players);
-      } else {
-        setMessages((prevMessages) => [...prevMessages, data]);
-      }
-    };
-
-    newSocket.onclose = () => {
-      console.log('WebSocket connection closed');
-    };
-
-    newSocket.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    };
-
-    return () => {
-      newSocket.close();
-    };
-  }, [username, roomName]);*/
-
-  const join = () => {
-    const newSocket = new WebSocket('ws://localhost:8080/chat'); // Replace with your WebSocket endpoint
-
-    newSocket.onopen = () => {
-      if (username && roomName) {
-        const joinMessage: ChatMessage = { sender: username, content: roomName, team: team };
-        newSocket.send(JSON.stringify(joinMessage));
-      }
-    };
-
-    newSocket.onmessage = (event) => {
-      const data: ChatMessage = JSON.parse(event.data);
-      if (data.content.startsWith("Players in room")) {
-        const players = data.content.split(":")[1].trim().split(",").map(p => p.trim());
-        setPlayersInRoom(players);
-      } else {
-        setMessages((prevMessages) => [...prevMessages, data]);
-      }
-    };
-
-    newSocket.onclose = () => {
-      console.log('WebSocket connection closed');
-    };
-
-    newSocket.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    };
-
-    return () => {
-      newSocket.close();
+    socket.onmessage = (event) => {
+      setMessages([...messages, JSON.parse(event.data).command]);
+      console.log(event);
     };
   }
 
+
   return (
     <div>
-      <div>
-        <h3>Players in the room:</h3>
-        <ul>
-          {playersInRoom.map((player) => (
-            <li key={player}>{player}</li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <input type="text" placeholder="Username" value={username} onChange={handleUsername} />
-        <button onClick={join}>Join</button>
-        <select value={team} onChange={handleTeam}>
-          <option value="">Choose a team</option>
-          <option value="Red">Red</option>
-          <option value="Blue">Blue</option>
-        </select>
-      </div>
-      <div>
-        <ul>
-          {messages.map((message, index) => (
-            <li key={index}>{message.sender}: {message.content}</li>
-          ))}
-        </ul>
-        <input type="text" placeholder="Type a message..." value={newMessage} onChange={handleNewMessage} />
-        <button onClick={sendMessage}>Send</button>
-      </div>
+      <ul>
+        {messages.map(m => <li key={m}>{m}</li>)}
+      </ul>
+      <input type={"text"} onChange={(e) => setInput(e.target.value)}/>
+      <button onClick={sendMessage}>Send</button>
     </div>
   );
 };
