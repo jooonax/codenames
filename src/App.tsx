@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import SockJS from 'sockjs-client';
 import { over } from 'stompjs';
+import ChatRoom from "./components/ChatRoom";
+import './index.css'
 
 const App: React.FC = () => {
 
@@ -39,7 +41,7 @@ const App: React.FC = () => {
   }
 
 
-  return (
+  /*return (
     <div>
       <ul>
         {messages.map(m => <li key={m}>{m}</li>)}
@@ -47,7 +49,12 @@ const App: React.FC = () => {
       <input type={"text"} onChange={(e) => setInput(e.target.value)}/>
       <button onClick={sendMessage}>Send</button>
     </div>
-  );
+  );*/
+
+  return (
+      <ChatRoom />
+  )
+
 };
 
 export default App;
