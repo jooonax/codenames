@@ -10,6 +10,7 @@ const gameStateContext = createContext<[GameState, (_:GameState) => void]>([{
   roomCode: "",
   teams: [],
   cards: [],
+  gameMessages: [],
 }, () => null]);
 
 export default gameStateContext;

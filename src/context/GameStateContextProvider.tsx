@@ -17,9 +17,14 @@ const GameStateContextProvider = ({children}:Props) => {
     roomCode: "",
     teams: [],
     cards: [],
+    gameMessages: [],
   });
 
   const connect = () => {
+    if (stompClient?.connected) {
+      stompClient?.disconnect(() => {});
+    }
+
     let Sock = new SockJS('http://localhost:8080/ws');
     stompClient = over(Sock);
     stompClient.connect({}, onConnected, onError);
@@ -52,9 +57,8 @@ const GameStateContextProvider = ({children}:Props) => {
     console.log(err);
   }
 
-  const sendGameState = () => {
+  const sendGameState = (gs: GameState) => {
     if (stompClient) {
-      let gs = gameState;
       console.log(gs);
       stompClient.send("/app/game", {}, JSON.stringify(gs));
     }
@@ -66,12 +70,12 @@ const GameStateContextProvider = ({children}:Props) => {
 
 
   return (
-    <GameStateContext.Provider value={[gameState, setGameState]}>
+    <GameStateContext.Provider value={[gameState, sendGameState]}>
       <>
         <button type="button" onClick={registerUser}>
           connect
         </button>
-        <button type="button" onClick={sendGameState}>
+        <button type="button" onClick={() => sendGameState(gameState)}>
           send
         </button>
         {children}

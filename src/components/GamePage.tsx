@@ -11,7 +11,6 @@ const GamePage = () => {
 
   return (
     <div>
-      {gameState.receiverNames}
     </div>
   );
 };

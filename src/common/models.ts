@@ -2,6 +2,13 @@ interface UserData {
   username: string;
   connected: boolean;
 }
+interface ChatMessage {
+  senderName: string;
+  message?: string;
+  status: 'JOIN' | 'MESSAGE';
+  date: string;
+  receiverName?: string;
+}
 
 
 type GameState = {
@@ -9,6 +16,7 @@ type GameState = {
   roomCode: string;
   teams: Team[];
   cards: Card[];
+  gameMessages: ChatMessage[];
 }
 
 type Team = {
@@ -23,4 +31,4 @@ type Card = {
 }
 
 
-export type {UserData, GameState};
+export type {Team, Card, ChatMessage, UserData, GameState};
