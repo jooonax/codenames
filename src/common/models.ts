@@ -1,7 +1,26 @@
-type ChatMessage = {
-  sender: string;
-  content: string;
-  team: string;
+interface UserData {
+  username: string;
+  connected: boolean;
 }
 
-export type {ChatMessage};
+
+type GameState = {
+  sender: string;
+  roomCode: string;
+  teams: Team[];
+  cards: Card[];
+}
+
+type Team = {
+  teamColor: string;
+  spymasters: string[];
+  operatives: string[];
+}
+
+type Card = {
+  word: string;
+  color: string;
+}
+
+
+export type {UserData, GameState};

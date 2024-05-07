@@ -18,6 +18,7 @@ interface UserData {
     message: string;
 }
 
+
 const ChatRoom = () => {
     const [privateChats, setPrivateChats] = useState(new Map<string, ChatMessage[]>());
     const [publicChats, setPublicChats] = useState<ChatMessage[]>([]);
