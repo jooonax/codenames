@@ -3,7 +3,6 @@ import GameStateContext from "./GameStateContext";
 import {Card, GameState, Player} from "../common/models";
 import PlayerContext from "./PlayerContext";
 import WebsocketConetxt from "./WebsocketContext";
-import PlayerContextProvider from "./PlayerContextProvider";
 
 
 interface Props {
@@ -24,14 +23,9 @@ const GameStateContextProvider = ({children}:Props) => {
   const [player, setPlayer] = useContext(PlayerContext);
   const [websocketFunctions, setWebsocketFunctions] = useContext(WebsocketConetxt);
 
-  useEffect(() => {
-    setWebsocketFunctions({...websocketFunctions,
-      onGameState: (gs:GameState) => {
-      console.log(gs);
-        setGameState(gs)
-      }
-    })
-  }, []);
+  setWebsocketFunctions({...websocketFunctions,
+    onGameState: setGameState
+  });
 
   const sendGameState = (gs: GameState) => {
     websocketFunctions.sendGameState({...gs, sender: player});
@@ -41,7 +35,6 @@ const GameStateContextProvider = ({children}:Props) => {
   return (
     <GameStateContext.Provider value={[gameState, sendGameState]}>
       <>
-        {gameState.sender.username}
         {children}
       </>
     </GameStateContext.Provider>

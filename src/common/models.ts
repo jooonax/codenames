@@ -28,7 +28,7 @@ type Player = {
 type WebsocketFunctions = {
   connect: (_:Player) => void;
   sendMessage: (_:ChatMessage) => void;
-  onMessage: (_:ChatMessage) => void;
+  onMessage: (_: ChatMessage) => void;
   sendGameState: (_:GameState) => void;
   onGameState: (_:GameState) => void;
 }

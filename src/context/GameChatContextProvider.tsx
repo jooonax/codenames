@@ -11,23 +11,23 @@ import websocketContext from "./WebsocketContext";
 interface Props {
   children: ReactNode;
 }
-
+let stompChat: ChatMessage[] = [];
 const GameChatContextProvider = ({children}: Props) => {
   const [chat, setChat] = useState<ChatMessage[]>([]);
   const [websocketFunctions, setWebsocketFunctions] = useContext(websocketContext);
 
-  useEffect(() => {
-    setWebsocketFunctions({...websocketFunctions,
-      onMessage: onMessage
-    })
-  }, []);
-
   const onMessage = (m:ChatMessage) => {
-    setChat([...chat, m])
+    stompChat.push(m)
+    setChat([...stompChat])
   }
+
+  setWebsocketFunctions({...websocketFunctions,
+    onMessage: onMessage
+  });
 
   const sendMessage = (m: ChatMessage) => {
     websocketFunctions.sendMessage(m);
+    console.log(websocketFunctions);
     onMessage(m);
   }
 

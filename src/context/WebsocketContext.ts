@@ -6,13 +6,13 @@
 import {createContext} from "react";
 import {ChatMessage, GameState, Player, WebsocketFunctions} from "../common/models";
 
-const websocketContext = createContext<[WebsocketFunctions, (_:WebsocketFunctions) => void]>([{
-  connect(_:Player): void {
-  }, onGameState(_: GameState): void {
-  }, onMessage(_: ChatMessage): void {
-  }, sendGameState(_: GameState): void {
-  }, sendMessage(_: ChatMessage): void {
-  }
-}, () => null]);
+const websocketContext = createContext<[WebsocketFunctions, (_:WebsocketFunctions) => void]>([
+  {
+    connect: (_:Player) => {},
+    onGameState: (_: GameState) => {},
+    onMessage: (_: ChatMessage) => {},
+    sendGameState: (_: GameState) => {},
+    sendMessage: (_: ChatMessage)=> {}
+  }, () => null]);
 
 export default websocketContext;

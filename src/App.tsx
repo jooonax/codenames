@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './index.css'
 import GameStateContextProvider from "./context/GameStateContextProvider";
 import GameChat from "./components/GameChat";
 import GamePage from "./components/GamePage";

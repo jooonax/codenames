@@ -11,6 +11,13 @@ import WebsocketContext from "./WebsocketContext";
 import PlayerContext from "./PlayerContext";
 
 let stompClient: Client | null = null;
+let websocketFunctions: WebsocketFunctions = {
+  connect: (_:Player) => {},
+  onGameState: (_: GameState) => {},
+  onMessage: (_: ChatMessage) => {},
+  sendGameState: (_: GameState) => {},
+  sendMessage: (_: ChatMessage)=> {}
+};
 
 interface Props {
   children: ReactNode;
@@ -19,9 +26,8 @@ interface Props {
 const WebsocketContextProvider = ({children}: Props) => {
   const [player, setPlayer] = useContext(PlayerContext);
 
-
-  const [websocketFunctions, setWebsocketFunctions] = useState<WebsocketFunctions>({
-    connect(player:Player): void {
+  websocketFunctions = {...websocketFunctions,
+    connect: (player:Player) => {
       if (stompClient?.connected) {
         stompClient?.disconnect(() => {});
       }
@@ -29,18 +35,19 @@ const WebsocketContextProvider = ({children}: Props) => {
       let Sock = new SockJS('http://localhost:8080/ws');
       stompClient = over(Sock);
       stompClient.connect({}, () => onConnected(player), onError);
-    }, onGameState(_: GameState): void {
-    }, onMessage(_: ChatMessage): void {
-    }, sendGameState(gs: GameState): void {
+    },
+
+    sendGameState: (gs: GameState) => {
       if (stompClient) {
         stompClient.send("/app/game", {}, JSON.stringify(gs));
       }
-    }, sendMessage(m: ChatMessage): void {
+    },
+    sendMessage: (m: ChatMessage) => {
       if (stompClient) {
         stompClient.send("/app/message", {}, JSON.stringify(m));
       }
     }
-  });
+  }
 
   const join = (player: Player) => {
     if (stompClient) {
@@ -52,16 +59,19 @@ const WebsocketContextProvider = ({children}: Props) => {
   const onConnected = (player: Player) => {
     stompClient?.subscribe('/user/' + player.username + '/state', (_:any) => websocketFunctions.onGameState(JSON.parse(_.body)));
     stompClient?.subscribe('/user/' + player.username + '/message', (_:any) => {
-      console.log(websocketFunctions.onMessage.toString());
       websocketFunctions.onMessage(JSON.parse(_.body))
+      console.log(websocketFunctions.onMessage.toString());
     });
+    console.log(websocketFunctions)
     join(player);
   }
-
   const onError = (err: any) => {
     console.log(err);
   }
 
+  const setWebsocketFunctions = (wsf: WebsocketFunctions) => {
+    websocketFunctions = {...wsf};
+  }
 
   return (
     <WebsocketContext.Provider value={[websocketFunctions, setWebsocketFunctions]}>
@@ -74,7 +84,6 @@ const WebsocketContextProvider = ({children}: Props) => {
         })}>
           connect
         </button>
-        {websocketFunctions.onMessage.toString()}
         {children}
       </>
     </WebsocketContext.Provider>
