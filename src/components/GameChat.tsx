@@ -15,7 +15,6 @@ const GameChat = () => {
 
   return (
     <div>
-      {player.username}
       <ul>
         {chat.map((m, i) => <li key={i}>{m.sender.username} - {m.message}</li>)}
       </ul>

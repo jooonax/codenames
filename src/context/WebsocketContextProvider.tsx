@@ -19,12 +19,15 @@ let websocketFunctions: WebsocketFunctions = {
   sendMessage: (_: ChatMessage)=> {}
 };
 
+
+
 interface Props {
   children: ReactNode;
 }
 
 const WebsocketContextProvider = ({children}: Props) => {
   const [player, setPlayer] = useContext(PlayerContext);
+  const [connected, setConnected] = useState(false);
 
   websocketFunctions = {...websocketFunctions,
     connect: (player:Player) => {
@@ -54,15 +57,12 @@ const WebsocketContextProvider = ({children}: Props) => {
       stompClient.send("/app/join", {}, JSON.stringify(player));
     }
     setPlayer(player);
+    setConnected(true);
   }
 
   const onConnected = (player: Player) => {
     stompClient?.subscribe('/user/' + player.username + '/state', (_:any) => websocketFunctions.onGameState(JSON.parse(_.body)));
-    stompClient?.subscribe('/user/' + player.username + '/message', (_:any) => {
-      websocketFunctions.onMessage(JSON.parse(_.body))
-      console.log(websocketFunctions.onMessage.toString());
-    });
-    console.log(websocketFunctions)
+    stompClient?.subscribe('/user/' + player.username + '/message', (_:any) => websocketFunctions.onMessage(JSON.parse(_.body)));
     join(player);
   }
   const onError = (err: any) => {
@@ -74,16 +74,8 @@ const WebsocketContextProvider = ({children}: Props) => {
   }
 
   return (
-    <WebsocketContext.Provider value={[websocketFunctions, setWebsocketFunctions]}>
+    <WebsocketContext.Provider value={[websocketFunctions, setWebsocketFunctions, connected]}>
       <>
-        <button type="button" onClick={() => websocketFunctions.connect({
-          username: "player_"+Date.now(),
-          roomCode: prompt("room code") ?? "",
-          role: "NONE",
-          team: "NONE",
-        })}>
-          connect
-        </button>
         {children}
       </>
     </WebsocketContext.Provider>

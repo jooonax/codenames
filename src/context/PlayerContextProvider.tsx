@@ -5,7 +5,7 @@
 import React, {ReactNode, useContext, useEffect, useState} from 'react';
 import PlayerContext from "./PlayerContext";
 import {GameState, Player} from "../common/models";
-import WebsocketConetxt from "./WebsocketContext";
+import WebsocketContext from "./WebsocketContext";
 
 interface Props {
   children: ReactNode;
@@ -18,7 +18,7 @@ const PlayerContextProvider = ({children} : Props) => {
     role: "NONE",
     team: "NONE",
   })
-  const [websocketFunctions, setWebsocketFunctions] = useContext(WebsocketConetxt);
+  const [websocketFunctions, setWebsocketFunctions] = useContext(WebsocketContext);
 
   return (
     <PlayerContext.Provider value={[player, setPlayer]}>

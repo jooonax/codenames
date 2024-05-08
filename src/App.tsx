@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, {ReactNode, useContext, useEffect, useState} from 'react';
 import GameStateContextProvider from "./context/GameStateContextProvider";
 import GameChat from "./components/GameChat";
-import GamePage from "./components/GamePage";
+import GamePage from "./pages/GamePage";
 import PlayerContextProvider from "./context/PlayerContextProvider";
-import WebsocketContextProvider from "./context/WebsocketContextProvider";
 import GameChatContextProvider from "./context/GameChatContextProvider";
+import HomePage from "./pages/HomePage";
+import WebsocketContextProvider from "./context/WebsocketContextProvider";
+import websocketContext from "./context/WebsocketContext";
 
 const App: React.FC = () => {
+
+
   return (
-      //<ChatRoom />
     <>
     <PlayerContextProvider>
       <WebsocketContextProvider>
@@ -16,7 +19,7 @@ const App: React.FC = () => {
             <GameChatContextProvider>
 
               <GamePage/>
-              <GameChat/>
+              <HomePage/>
 
             </GameChatContextProvider>
           </GameStateContextProvider>

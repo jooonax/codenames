@@ -2,7 +2,7 @@ import React, {ReactNode, useContext, useEffect, useState} from 'react';
 import GameStateContext from "./GameStateContext";
 import {Card, GameState, Player} from "../common/models";
 import PlayerContext from "./PlayerContext";
-import WebsocketConetxt from "./WebsocketContext";
+import WebsocketContext from "./WebsocketContext";
 
 
 interface Props {
@@ -21,7 +21,7 @@ const GameStateContextProvider = ({children}:Props) => {
     cards: [],
   });
   const [player, setPlayer] = useContext(PlayerContext);
-  const [websocketFunctions, setWebsocketFunctions] = useContext(WebsocketConetxt);
+  const [websocketFunctions, setWebsocketFunctions] = useContext(WebsocketContext);
 
   setWebsocketFunctions({...websocketFunctions,
     onGameState: setGameState
