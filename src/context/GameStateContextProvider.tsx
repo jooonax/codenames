@@ -1,11 +1,10 @@
-import React, {ReactNode, useEffect, useState} from 'react';
+import React, {ReactNode, useContext, useEffect, useState} from 'react';
 import GameStateContext from "./GameStateContext";
-import SockJS from "sockjs-client";
-import {Client, over} from "stompjs";
-import {GameState, UserData} from "../common/models";
-import gameStateContext from "./GameStateContext";
+import {Card, GameState, Player} from "../common/models";
+import PlayerContext from "./PlayerContext";
+import WebsocketConetxt from "./WebsocketContext";
+import PlayerContextProvider from "./PlayerContextProvider";
 
-let stompClient: Client | null = null;
 
 interface Props {
   children: ReactNode;
@@ -13,71 +12,36 @@ interface Props {
 
 const GameStateContextProvider = ({children}:Props) => {
   const [gameState, setGameState] = useState<GameState>({
-    sender: "",
-    roomCode: "",
-    teams: [],
+    sender: {
+      username: "",
+      roomCode: "",
+      role: "NONE",
+      team: "NONE",
+    },
+    players: [],
     cards: [],
-    gameMessages: [],
   });
+  const [player, setPlayer] = useContext(PlayerContext);
+  const [websocketFunctions, setWebsocketFunctions] = useContext(WebsocketConetxt);
 
-  const connect = () => {
-    if (stompClient?.connected) {
-      stompClient?.disconnect(() => {});
-    }
-
-    let Sock = new SockJS('http://localhost:8080/ws');
-    stompClient = over(Sock);
-    stompClient.connect({}, onConnected, onError);
-  }
-
-  const onConnected = () => {
-    let gs = { ...gameState, sender: "player_" + Date.now(), roomCode: prompt("roomCode") ?? ""};
-    setGameState(gs);
-    stompClient?.subscribe('/user/' + gs.sender + '/state', onGameState);
-    userJoin(gs);
-  }
-
-  const userJoin = (gs: GameState) => {
-    if (stompClient) {
-      stompClient.send("/app/join", {}, JSON.stringify({
-        user: gs.sender,
-        roomCode: gs.roomCode
-      }));
-    }
-  }
-
-
-  const onGameState = (payload: any) => {
-    console.log(payload);
-    payload.sender = gameState.sender;
-    setGameState(payload);
-  }
-
-  const onError = (err: any) => {
-    console.log(err);
-  }
+  useEffect(() => {
+    setWebsocketFunctions({...websocketFunctions,
+      onGameState: (gs:GameState) => {
+      console.log(gs);
+        setGameState(gs)
+      }
+    })
+  }, []);
 
   const sendGameState = (gs: GameState) => {
-    if (stompClient) {
-      console.log(gs);
-      stompClient.send("/app/game", {}, JSON.stringify(gs));
-    }
+    websocketFunctions.sendGameState({...gs, sender: player});
+    setGameState(gs);
   }
-
-  const registerUser = () => {
-    connect();
-  }
-
 
   return (
     <GameStateContext.Provider value={[gameState, sendGameState]}>
       <>
-        <button type="button" onClick={registerUser}>
-          connect
-        </button>
-        <button type="button" onClick={() => sendGameState(gameState)}>
-          send
-        </button>
+        {gameState.sender.username}
         {children}
       </>
     </GameStateContext.Provider>

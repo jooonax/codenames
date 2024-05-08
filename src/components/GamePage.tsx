@@ -11,6 +11,9 @@ const GamePage = () => {
 
   return (
     <div>
+      <button type="button" onClick={() => setGameState(gameState)}>
+        send
+      </button>
     </div>
   );
 };

@@ -3,35 +3,25 @@
 // Date: 2024-05-07
 // Time: 14:48:57
 
-import React, {useContext, useState} from 'react';
-import GameStateContext from "../context/GameStateContext";
-import {ChatMessage} from "../common/models";
+import React, {useContext} from 'react';
+import gameChatContext from "../context/GameChatContext";
+import playerContext from "../context/PlayerContext";
 
 const GameChat = () => {
+  const [chat, sendMessage] = useContext(gameChatContext);
+  const [player, setPlayer] = useContext(playerContext);
 
-  const [gameState, setGameState] = useContext(GameStateContext);
-  const [message, setMessage] = useState<ChatMessage>({
-    senderName: gameState.sender,
-    status: 'MESSAGE',
-    date: Date.now().toString(),
-    receiverName: "",
-  });
-  const handleMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setMessage({...message, message: value});
-  }
-  const send = () => {
-    setGameState({...gameState, gameMessages: [...gameState.gameMessages, {...message, date: Date.now().toString()}]})
-  }
   return (
     <div>
+      {player.username}
       <ul>
-        {gameState?.gameMessages?.map(gm => <li>{gm.senderName}: {gm.message}</li>)}
+        {chat.map((m, i) => <li key={i}>{m.sender.username} - {m.message}</li>)}
       </ul>
-      <div className="send-message">
-        <input type="text" className="input-message" placeholder="enter the message" value={message.message} onChange={handleMessage} />
-        <button type="button" className="send-button" onClick={send}>send</button>
-      </div>
+      <button onClick={() => sendMessage({
+        date: "", status: "MESSAGE",
+        sender: player,
+        message: "test"
+      })}>send message</button>
     </div>
   );
 };

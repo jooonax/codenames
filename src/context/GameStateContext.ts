@@ -6,11 +6,14 @@ import {createContext} from "react";
 import {GameState} from "../common/models";
 
 const gameStateContext = createContext<[GameState, (_:GameState) => void]>([{
-  sender: "",
-  roomCode: "",
-  teams: [],
+  sender: {
+    username: "",
+    roomCode: "",
+    role: "NONE",
+    team: "NONE",
+  },
+  players: [],
   cards: [],
-  gameMessages: [],
 }, () => null]);
 
 export default gameStateContext;

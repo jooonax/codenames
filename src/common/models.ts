@@ -1,34 +1,36 @@
-interface UserData {
-  username: string;
-  connected: boolean;
-}
 interface ChatMessage {
-  senderName: string;
+  sender: Player;
   message?: string;
   status: 'JOIN' | 'MESSAGE';
   date: string;
-  receiverName?: string;
 }
 
 
 type GameState = {
-  sender: string;
-  roomCode: string;
-  teams: Team[];
+  sender: Player;
   cards: Card[];
-  gameMessages: ChatMessage[];
+  players: Player[];
 }
 
-type Team = {
-  teamColor: string;
-  spymasters: string[];
-  operatives: string[];
-}
 
 type Card = {
   word: string;
   color: string;
 }
 
+type Player = {
+  username: string;
+  roomCode: string;
+  team: "NONE" | "RED" | "BLUE";
+  role: "NONE" | "MASTER" | "OPERATOR";
+}
 
-export type {Team, Card, ChatMessage, UserData, GameState};
+type WebsocketFunctions = {
+  connect: (_:Player) => void;
+  sendMessage: (_:ChatMessage) => void;
+  onMessage: (_:ChatMessage) => void;
+  sendGameState: (_:GameState) => void;
+  onGameState: (_:GameState) => void;
+}
+
+export type {WebsocketFunctions, Player, Card, ChatMessage, GameState};
