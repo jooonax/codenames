@@ -25,7 +25,7 @@ const HomePage = () => {
 
       <button type="button" onClick={() => websocketFunctions.connect({
         username: username.length > 3 ? username : "player_"+Date.now(),
-        roomCode: roomCode,
+        roomCode: roomCode.length == 0 ? Date.now().toString() : roomCode,
         role: "NONE",
         team: "NONE",
       })} className={"btn btn-lg btn-primary"}>

@@ -9,7 +9,6 @@ interface ChatMessage {
 type GameState = {
   sender: Player;
   cards: Card[];
-  players: Player[];
 }
 
 
