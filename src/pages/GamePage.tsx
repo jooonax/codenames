@@ -9,14 +9,13 @@ import GameChat from "../components/GameChat";
 import websocketContext from "../context/WebsocketContext";
 import PlayerContext from "../context/PlayerContext";
 import usePlayers from "../hooks/usePlayers";
+import CardComponent from "../components/CardComponent";
 
 const GamePage = () => {
   const [gameState, setGameState] = useContext(GameStateContext);
   const [player, setPlayer] = useContext(PlayerContext);
   const [_1, _2, connected] = useContext(websocketContext);
   const players = usePlayers(player.roomCode);
-
-
   return !connected ? <></> : (
     <div>
       <div>Username: {player.username}</div>
@@ -24,8 +23,10 @@ const GamePage = () => {
       <GameChat/>
       <h3>Players in Room:</h3>
       <ul>
-        {players.map((p,i) => <li key={i}>{p.username}</li>)}
+        {players.length > 0 ? players.map((p,i) => <li key={i}>{p.username}</li>) : <></>}
       </ul>
+      <h3>Cards in Room:</h3>
+      {gameState.cards.map((c,i) => <CardComponent key={i} card={c}/>)}
     </div>
   );
 };

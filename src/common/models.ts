@@ -30,6 +30,7 @@ type WebsocketFunctions = {
   onMessage: (_: ChatMessage) => void;
   sendGameState: (_:GameState) => void;
   onGameState: (_:GameState) => void;
+  onJoined: (_:Player) => void;
 }
 
 export type {WebsocketFunctions, Player, Card, ChatMessage, GameState};

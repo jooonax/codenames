@@ -3,6 +3,7 @@ import GameStateContext from "./GameStateContext";
 import {Card, GameState, Player} from "../common/models";
 import PlayerContext from "./PlayerContext";
 import WebsocketContext from "./WebsocketContext";
+import apiClient from "../service/apiClient";
 
 
 interface Props {
@@ -17,17 +18,31 @@ const GameStateContextProvider = ({children}:Props) => {
       role: "NONE",
       team: "NONE",
     },
-    players: [],
     cards: [],
   });
+
   const [player, setPlayer] = useContext(PlayerContext);
   const [websocketFunctions, setWebsocketFunctions] = useContext(WebsocketContext);
+  setWebsocketFunctions("onGameState", setGameState);
 
-  setWebsocketFunctions({...websocketFunctions,
-    onGameState: setGameState
-  });
+  useEffect(() => {
+    if (player.roomCode.length == 0) return;
+    const controller = new AbortController();
+    getGameState(player.roomCode, controller);
+    return () => {controller.abort();};
+  }, [player.roomCode])
+
+  const getGameState = (roomCode: string, controller: AbortController = new AbortController()) => {
+    apiClient.get<GameState>(`/${roomCode}/gameState`, {signal: controller.signal})
+      .then(res => res.data)
+      .then(data => {
+        console.log(gameState)
+        setGameState(data)
+      })
+  }
 
   const sendGameState = (gs: GameState) => {
+    console.log(gs);
     websocketFunctions.sendGameState({...gs, sender: player});
     setGameState(gs);
   }

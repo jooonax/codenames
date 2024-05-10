@@ -9,6 +9,7 @@ import {Client, over} from "stompjs";
 import SockJS from "sockjs-client";
 import WebsocketContext from "./WebsocketContext";
 import PlayerContext from "./PlayerContext";
+import websocketContext from "./WebsocketContext";
 
 let stompClient: Client | null = null;
 let websocketFunctions: WebsocketFunctions = {
@@ -16,7 +17,8 @@ let websocketFunctions: WebsocketFunctions = {
   onGameState: (_: GameState) => {},
   onMessage: (_: ChatMessage) => {},
   sendGameState: (_: GameState) => {},
-  sendMessage: (_: ChatMessage)=> {}
+  sendMessage: (_: ChatMessage)=> {},
+  onJoined: (_:Player) => {},
 };
 
 
@@ -63,14 +65,17 @@ const WebsocketContextProvider = ({children}: Props) => {
   const onConnected = (player: Player) => {
     stompClient?.subscribe('/user/' + player.username + '/state', (_:any) => websocketFunctions.onGameState(JSON.parse(_.body)));
     stompClient?.subscribe('/user/' + player.username + '/message', (_:any) => websocketFunctions.onMessage(JSON.parse(_.body)));
+    stompClient?.subscribe('/user/' + player.username + '/joined', (_:any) => websocketFunctions.onJoined(JSON.parse(_.body)));
     join(player);
   }
   const onError = (err: any) => {
     console.log(err);
   }
 
-  const setWebsocketFunctions = (wsf: WebsocketFunctions) => {
-    websocketFunctions = {...wsf};
+  const setWebsocketFunctions = (name: string, f:any) => {
+    if (name == "onJoined" || name == "onMessage" || name == "onGameState") {
+      websocketFunctions[name] = f;
+    }
   }
 
   return (

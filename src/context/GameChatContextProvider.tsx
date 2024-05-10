@@ -21,9 +21,7 @@ const GameChatContextProvider = ({children}: Props) => {
     setChat([...stompChat])
   }
 
-  setWebsocketFunctions({...websocketFunctions,
-    onMessage: onMessage
-  });
+  setWebsocketFunctions("onMessage", onMessage);
 
   const sendMessage = (m: ChatMessage) => {
     websocketFunctions.sendMessage(m);
