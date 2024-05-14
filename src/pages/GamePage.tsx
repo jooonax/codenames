@@ -11,6 +11,7 @@ import PlayerContext from "../context/PlayerContext";
 import usePlayers from "../hooks/usePlayers";
 import CardComponent from "../components/CardComponent";
 import ChangeRole from "../components/ChangeRole";
+import ClueInput from "../components/ClueInput";
 
 const GamePage = () => {
   const [gameState, setGameState] = useContext(GameStateContext);
@@ -27,14 +28,18 @@ const GamePage = () => {
       <ChangeRole/>
       <h3>Players in Room:</h3>
       <ul>
-        {players && players.map(p => p.username == player.username ? player : p)
-          .map((p,i) => <li key={i}>{p.username} - {p.team} - {p.role}</li>)}
+        {players && players.map((p,i) => <li key={i}>{p.username} - {p.team} - {p.role}</li>)}
       </ul>
+      <ClueInput/>
       <h3>Cards in Room:</h3>
+      {gameState.started && (<>
+        <strong>{gameState.turn} teams turn</strong><br/>
+        <strong>Current clue: {gameState.clue?.word} - {gameState.clue?.amount}</strong>
+      </>)}
       {gameState.cards && gameState.cards.map((c,i) => <CardComponent key={i} card={c}/>)}
-      <button type="button" onClick={() => websocketFunctions.start()} className={"btn btn-lg btn-primary"}>
+      {!gameState.started && <button type="button" onClick={() => websocketFunctions.start()} className={"btn btn-lg btn-primary"}>
         Start Game
-      </button>
+      </button>}
     </div>
   );
 };

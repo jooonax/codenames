@@ -12,7 +12,8 @@ const gameStateContext = createContext<[GameState, (_:GameState) => void]>([{
     role: "NONE",
     team: "NONE",
   },
-  players: [],
+  turn: "NONE",
+  started: false,
   cards: [],
 }, () => null]);
 

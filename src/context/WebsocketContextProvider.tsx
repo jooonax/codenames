@@ -51,8 +51,8 @@ const WebsocketContextProvider = ({children}: Props) => {
     },
     changeRole: (newPlayer:Player) => {
       if (stompClient) {
-        stompClient.send("/app/role", {}, JSON.stringify(newPlayer))
-        setPlayer(newPlayer);
+        stompClient.send("/app/role", {}, JSON.stringify(newPlayer));
+        websocketFunctions.onPlayer(newPlayer);
       }
     },
     sendGameState: (gs: GameState) => {

@@ -18,6 +18,8 @@ const GameStateContextProvider = ({children}:Props) => {
       role: "NONE",
       team: "NONE",
     },
+    turn: "NONE",
+    started: false,
     cards: [],
   });
 

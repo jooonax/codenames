@@ -12,17 +12,18 @@ interface Props {
 }
 
 const CardComponent = ({card}: Props) => {
+  const c = {...card};
   const [player, setPlayer] = useContext(PlayerContext);
   let textColor = 'inherit';
 
   if (player.role === 'MASTER') {
-    textColor = card.color;
-    if (card.color.toLowerCase() === 'white') card.color = 'darkgray';
+    if (c.color.toLowerCase() === 'white') c.color = 'darkgray';
+    textColor = c.color;
   }
 
   return (
     <div style={{ color: textColor }}>
-      {card.word}
+      {c.word}
     </div>
   );
 };

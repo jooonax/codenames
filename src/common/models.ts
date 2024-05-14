@@ -9,8 +9,15 @@ interface ChatMessage {
 type GameState = {
   sender: Player;
   cards: Card[];
+  turn: "NONE" | "RED" | "BLUE";
+  started: boolean;
+  clue?: Clue;
 }
 
+type Clue = {
+  word: string;
+  amount: number;
+}
 
 type Card = {
   word: string;
@@ -35,4 +42,4 @@ type WebsocketFunctions = {
   onPlayer: (_:Player) => void;
 }
 
-export type {WebsocketFunctions, Player, Card, ChatMessage, GameState};
+export type {WebsocketFunctions, Player, Clue, Card, ChatMessage, GameState};
