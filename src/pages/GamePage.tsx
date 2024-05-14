@@ -10,6 +10,7 @@ import websocketContext from "../context/WebsocketContext";
 import PlayerContext from "../context/PlayerContext";
 import usePlayers from "../hooks/usePlayers";
 import CardComponent from "../components/CardComponent";
+import ChangeRole from "../components/ChangeRole";
 
 const GamePage = () => {
   const [gameState, setGameState] = useContext(GameStateContext);
@@ -20,13 +21,17 @@ const GamePage = () => {
     <div>
       <div>Username: {player.username}</div>
       <div>Code: {player.roomCode}</div>
+      <div>Role: {player.role}</div>
+      <div>Team: {player.team}</div>
       <GameChat/>
+      <ChangeRole/>
       <h3>Players in Room:</h3>
       <ul>
-        {players && players.map((p,i) => <li key={i}>{p.username}</li>)}
+        {players && players.map(p => p.username == player.username ? player : p)
+          .map((p,i) => <li key={i}>{p.username} - {p.team} - {p.role}</li>)}
       </ul>
       <h3>Cards in Room:</h3>
-      {gameState.cards && gameState.cards.map((c,i) => <CardComponent player={player} key={i} card={c}/>)}
+      {gameState.cards && gameState.cards.map((c,i) => <CardComponent key={i} card={c}/>)}
       <button type="button" onClick={() => websocketFunctions.start()} className={"btn btn-lg btn-primary"}>
         Start Game
       </button>

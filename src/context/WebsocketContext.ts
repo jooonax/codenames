@@ -10,11 +10,12 @@ const websocketContext = createContext<[WebsocketFunctions, (n:string, f:any) =>
   {
     connect: (_:Player) => {},
     start: () => {},
+    changeRole: () => {},
     onGameState: (_: GameState) => {},
     onMessage: (_: ChatMessage) => {},
     sendGameState: (_: GameState) => {},
     sendMessage: (_: ChatMessage) => {},
-    onJoined: (_:Player) => {},
+    onPlayer: (_:Player) => {},
   }, () => null,
   false]);
 

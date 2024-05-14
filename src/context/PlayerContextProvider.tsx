@@ -18,7 +18,6 @@ const PlayerContextProvider = ({children} : Props) => {
     role: "NONE",
     team: "NONE",
   })
-  const [websocketFunctions, setWebsocketFunctions] = useContext(WebsocketContext);
 
   return (
     <PlayerContext.Provider value={[player, setPlayer]}>

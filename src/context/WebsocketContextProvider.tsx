@@ -16,11 +16,12 @@ let stompClient: Client | null = null;
 let websocketFunctions: WebsocketFunctions = {
   connect: (_:Player) => {},
   start: () => {},
+  changeRole: () => {},
   onGameState: (_: GameState) => {},
   onMessage: (_: ChatMessage) => {},
   sendGameState: (_: GameState) => {},
   sendMessage: (_: ChatMessage)=> {},
-  onJoined: (_:Player) => {},
+  onPlayer: (_:Player) => {},
 };
 
 
@@ -44,9 +45,14 @@ const WebsocketContextProvider = ({children}: Props) => {
       stompClient.connect({}, () => onConnected(p), onError);
     },
     start: () => {
-      console.log(player);
       if (stompClient) {
         stompClient.send("/app/start", {}, player.roomCode);
+      }
+    },
+    changeRole: (newPlayer:Player) => {
+      if (stompClient) {
+        stompClient.send("/app/role", {}, JSON.stringify(newPlayer))
+        setPlayer(newPlayer);
       }
     },
     sendGameState: (gs: GameState) => {
@@ -75,7 +81,7 @@ const WebsocketContextProvider = ({children}: Props) => {
       websocketFunctions.onGameState(JSON.parse(_.body));
     });
     stompClient?.subscribe('/user/' + player.username + '/message', (_:any) => websocketFunctions.onMessage(JSON.parse(_.body)));
-    stompClient?.subscribe('/user/' + player.username + '/joined', (_:any) => websocketFunctions.onJoined(JSON.parse(_.body)));
+    stompClient?.subscribe('/user/' + player.username + '/player', (_:any) => websocketFunctions.onPlayer(JSON.parse(_.body)));
     join(player);
   }
   const onError = (err: any) => {
@@ -83,7 +89,7 @@ const WebsocketContextProvider = ({children}: Props) => {
   }
 
   const setWebsocketFunctions = (name: string, f:any) => {
-    if (name == "onJoined" || name == "onMessage" || name == "onGameState") {
+    if (name == "onPlayer" || name == "onMessage" || name == "onGameState") {
       websocketFunctions[name] = f;
     }
   }

@@ -27,11 +27,12 @@ type Player = {
 type WebsocketFunctions = {
   connect: (_:Player) => void;
   start: () => void;
+  changeRole: (_:Player) => void;
   sendMessage: (_:ChatMessage) => void;
   onMessage: (_: ChatMessage) => void;
   sendGameState: (_:GameState) => void;
   onGameState: (_:GameState) => void;
-  onJoined: (_:Player) => void;
+  onPlayer: (_:Player) => void;
 }
 
 export type {WebsocketFunctions, Player, Card, ChatMessage, GameState};
