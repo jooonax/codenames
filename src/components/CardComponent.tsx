@@ -4,16 +4,27 @@
 // Time: 11:31:43
 
 import React from 'react';
-import {Card} from "../common/models";
+import {Card, Player} from "../common/models";
+import {Simulate} from "react-dom/test-utils";
+import play = Simulate.play;
 
 interface Props {
   card: Card;
+  player?: Player;
 }
 
-const CardComponent = ({card}: Props) => {
+const CardComponent = ({card, player}: Props) => {
+
+  let textColor = 'inherit';
+
+  if (player?.role === 'MASTER') {
+    textColor = card.color;
+    if (card.color.toLowerCase() === 'white') card.color = 'darkgray';
+  }
+
   return (
-    <div>
-      {card.word} - {card.color}
+    <div style={{ color: textColor }}>
+      {card.word}
     </div>
   );
 };

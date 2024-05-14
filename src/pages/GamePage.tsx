@@ -26,7 +26,7 @@ const GamePage = () => {
         {players && players.map((p,i) => <li key={i}>{p.username}</li>)}
       </ul>
       <h3>Cards in Room:</h3>
-      {gameState.cards && gameState.cards.map((c,i) => <CardComponent key={i} card={c}/>)}
+      {gameState.cards && gameState.cards.map((c,i) => <CardComponent player={player} key={i} card={c}/>)}
       <button type="button" onClick={() => websocketFunctions.start()} className={"btn btn-lg btn-primary"}>
         Start Game
       </button>
