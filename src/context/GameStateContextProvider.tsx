@@ -36,7 +36,6 @@ const GameStateContextProvider = ({children}:Props) => {
     apiClient.get<GameState>(`/${roomCode}/gameState`, {signal: controller.signal})
       .then(res => res.data)
       .then(data => {
-        console.log(gameState)
         setGameState(data)
       })
   }

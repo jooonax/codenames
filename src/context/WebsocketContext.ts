@@ -9,6 +9,7 @@ import {ChatMessage, GameState, Player, WebsocketFunctions} from "../common/mode
 const websocketContext = createContext<[WebsocketFunctions, (n:string, f:any) => void, boolean]>([
   {
     connect: (_:Player) => {},
+    start: () => {},
     onGameState: (_: GameState) => {},
     onMessage: (_: ChatMessage) => {},
     sendGameState: (_: GameState) => {},

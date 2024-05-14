@@ -10,10 +10,12 @@ import SockJS from "sockjs-client";
 import WebsocketContext from "./WebsocketContext";
 import PlayerContext from "./PlayerContext";
 import websocketContext from "./WebsocketContext";
+import {send} from "vite";
 
 let stompClient: Client | null = null;
 let websocketFunctions: WebsocketFunctions = {
   connect: (_:Player) => {},
+  start: () => {},
   onGameState: (_: GameState) => {},
   onMessage: (_: ChatMessage) => {},
   sendGameState: (_: GameState) => {},
@@ -32,16 +34,21 @@ const WebsocketContextProvider = ({children}: Props) => {
   const [connected, setConnected] = useState(false);
 
   websocketFunctions = {...websocketFunctions,
-    connect: (player:Player) => {
+    connect: (p:Player) => {
       if (stompClient?.connected) {
         stompClient?.disconnect(() => {});
       }
 
       let Sock = new SockJS('http://localhost:8080/ws');
       stompClient = over(Sock);
-      stompClient.connect({}, () => onConnected(player), onError);
+      stompClient.connect({}, () => onConnected(p), onError);
     },
-
+    start: () => {
+      console.log(player);
+      if (stompClient) {
+        stompClient.send("/app/start", {}, player.roomCode);
+      }
+    },
     sendGameState: (gs: GameState) => {
       if (stompClient) {
         stompClient.send("/app/game", {}, JSON.stringify(gs));
@@ -63,7 +70,10 @@ const WebsocketContextProvider = ({children}: Props) => {
   }
 
   const onConnected = (player: Player) => {
-    stompClient?.subscribe('/user/' + player.username + '/state', (_:any) => websocketFunctions.onGameState(JSON.parse(_.body)));
+    stompClient?.subscribe('/user/' + player.username + '/state', (_:any) => {
+      console.log(_.body);
+      websocketFunctions.onGameState(JSON.parse(_.body));
+    });
     stompClient?.subscribe('/user/' + player.username + '/message', (_:any) => websocketFunctions.onMessage(JSON.parse(_.body)));
     stompClient?.subscribe('/user/' + player.username + '/joined', (_:any) => websocketFunctions.onJoined(JSON.parse(_.body)));
     join(player);

@@ -5,9 +5,10 @@
 
 import React, {useContext, useState} from 'react';
 import websocketContext from "../context/WebsocketContext";
+import PlayerContext from "../context/PlayerContext";
 
 const HomePage = () => {
-  const [websocketFunctions, _2, connected] = useContext(websocketContext);
+  const [websocketFunctions, setWebsocketFunctions, connected] = useContext(websocketContext);
   const [username, setUsername] = useState<string>("");
   const [roomCode, setRoomCode] = useState<string>("");
 

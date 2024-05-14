@@ -14,7 +14,7 @@ import CardComponent from "../components/CardComponent";
 const GamePage = () => {
   const [gameState, setGameState] = useContext(GameStateContext);
   const [player, setPlayer] = useContext(PlayerContext);
-  const [_1, _2, connected] = useContext(websocketContext);
+  const [websocketFunctions, _2, connected] = useContext(websocketContext);
   const players = usePlayers(player.roomCode);
   return !connected ? <></> : (
     <div>
@@ -23,10 +23,13 @@ const GamePage = () => {
       <GameChat/>
       <h3>Players in Room:</h3>
       <ul>
-        {players.length > 0 ? players.map((p,i) => <li key={i}>{p.username}</li>) : <></>}
+        {players && players.map((p,i) => <li key={i}>{p.username}</li>)}
       </ul>
       <h3>Cards in Room:</h3>
-      {gameState.cards.map((c,i) => <CardComponent key={i} card={c}/>)}
+      {gameState.cards && gameState.cards.map((c,i) => <CardComponent key={i} card={c}/>)}
+      <button type="button" onClick={() => websocketFunctions.start()} className={"btn btn-lg btn-primary"}>
+        Start Game
+      </button>
     </div>
   );
 };
