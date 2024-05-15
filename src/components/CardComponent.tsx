@@ -3,27 +3,29 @@
 // Date: 2024-05-10
 // Time: 11:31:43
 
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {Card} from "../common/models";
 import PlayerContext from "../context/PlayerContext";
+import "./card.css";
 
 interface Props {
   card: Card;
 }
 
 const CardComponent = ({card}: Props) => {
-  const c = {...card};
   const [player, setPlayer] = useContext(PlayerContext);
   let textColor = 'inherit';
-
-  if (player.role === 'MASTER') {
-    if (c.color.toLowerCase() === 'white') c.color = 'darkgray';
-    textColor = c.color;
-  }
+  const [flipped, setFlipped] = useState<boolean>(false);
 
   return (
-    <div style={{ color: textColor }}>
-      {c.word}
+    <div className={flipped ? "flipped" : ""} onClick={() => setFlipped(!flipped)}>
+      <div className="card">
+        <div className="card-front">
+          {card.word}{player.role === 'MASTER' ? " - " + card.color : ""}
+        </div>
+        <div className="card-back">
+        </div>
+      </div>
     </div>
   );
 };

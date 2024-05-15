@@ -36,7 +36,13 @@ const GamePage = () => {
         <strong>{gameState.turn} teams turn</strong><br/>
         <strong>Current clue: {gameState.clue?.word} - {gameState.clue?.amount}</strong>
       </>)}
-      {gameState.cards && gameState.cards.map((c,i) => <CardComponent key={i} card={c}/>)}
+
+      {gameState.cards &&
+            <div className="cards">
+              {gameState.cards.map((c, i) => <CardComponent key={i} card={c}/>)}
+            </div>
+      }
+
       {!gameState.started && <button type="button" onClick={() => websocketFunctions.start()} className={"btn btn-lg btn-primary"}>
         Start Game
       </button>}

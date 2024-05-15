@@ -6,6 +6,7 @@
 import React, {useContext, useState} from 'react';
 import websocketContext from "../context/WebsocketContext";
 import PlayerContext from "../context/PlayerContext";
+import CardComponent from "../components/CardComponent";
 
 const HomePage = () => {
   const [websocketFunctions, setWebsocketFunctions, connected] = useContext(websocketContext);
@@ -32,6 +33,13 @@ const HomePage = () => {
       })} className={"btn btn-lg btn-primary"}>
         connect
       </button>
+      <div className="card-container">
+        <div className="cards">
+          <CardComponent card={{ word: "testing", color: "RED"}}/>
+          <CardComponent card={{ word: "testing", color: "RED"}}/>
+          <CardComponent card={{ word: "testing", color: "RED"}}/>
+        </div>
+      </div>
     </div>
   );
 };
