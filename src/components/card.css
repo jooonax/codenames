@@ -6,9 +6,8 @@
     gap: 1vw;
 }
 .card {
-    width: 15vw;
-    aspect-ratio: 1 / 1.4;
-    cursor: pointer;
+    width: 14vw;
+    aspect-ratio: 1.4 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -19,7 +18,7 @@
 .card-back,
 .card-front {
     position: absolute;
-    background-size: 15vw 21vw;
+    background-size: 14vw 10vw;
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
@@ -41,6 +40,19 @@
     justify-content: center;
     align-items: center;
     font-weight: bold;
+}
+
+.card-flipper {
+    position: absolute;
+    top: 1vh;
+    right: 1vw;
+    cursor: pointer;
+}
+
+.card-marked {
+    position: absolute;
+    top: 1vh;
+    left: 1vw;
 }
 
 .flipped .card {

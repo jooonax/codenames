@@ -12,6 +12,8 @@ type GameState = {
   turn: "NONE" | "RED" | "BLUE";
   started: boolean;
   clue?: Clue;
+  flippedCount: number;
+  winner: "NONE" | "RED" | "BLUE";
 }
 
 type Clue = {
@@ -21,7 +23,9 @@ type Clue = {
 
 type Card = {
   word: string;
-  color: string;
+  color: "WHITE" | "RED" | "BLUE" | "BLACK";
+  flipped: boolean;
+  marked: string[];
 }
 
 type Player = {

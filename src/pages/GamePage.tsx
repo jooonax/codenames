@@ -34,7 +34,9 @@ const GamePage = () => {
       <h3>Cards in Room:</h3>
       {gameState.started && (<>
         <strong>{gameState.turn} teams turn</strong><br/>
-        <strong>Current clue: {gameState.clue?.word} - {gameState.clue?.amount}</strong>
+        <strong>Current clue: {gameState.clue?.word} - {gameState.clue?.amount}</strong><br/>
+        <strong>Red cards left: {gameState.cards.filter(c => c.color === "RED" && !c.flipped).length}</strong><br/>
+        <strong>Blue cards left: {gameState.cards.filter(c => c.color === "BLUE" && !c.flipped).length}</strong>
       </>)}
 
       {gameState.cards &&
@@ -43,9 +45,12 @@ const GamePage = () => {
             </div>
       }
 
-      {!gameState.started && <button type="button" onClick={() => websocketFunctions.start()} className={"btn btn-lg btn-primary"}>
-        Start Game
-      </button>}
+      {!gameState.started && <>
+          <button type="button" onClick={() => websocketFunctions.start()} className={"btn btn-lg btn-primary"}>
+            Start Game
+          </button><br/>
+          <strong>{gameState.winner} won the last game</strong>
+      </>}
     </div>
   );
 };

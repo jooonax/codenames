@@ -33,13 +33,6 @@ const HomePage = () => {
       })} className={"btn btn-lg btn-primary"}>
         connect
       </button>
-      <div className="card-container">
-        <div className="cards">
-          <CardComponent card={{ word: "testing", color: "RED"}}/>
-          <CardComponent card={{ word: "testing", color: "RED"}}/>
-          <CardComponent card={{ word: "testing", color: "RED"}}/>
-        </div>
-      </div>
     </div>
   );
 };

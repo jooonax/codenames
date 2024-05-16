@@ -21,6 +21,8 @@ const GameStateContextProvider = ({children}:Props) => {
     turn: "NONE",
     started: false,
     cards: [],
+    flippedCount: 0,
+    winner: "NONE",
   });
 
   const [player, setPlayer] = useContext(PlayerContext);

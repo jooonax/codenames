@@ -15,6 +15,8 @@ const gameStateContext = createContext<[GameState, (_:GameState) => void]>([{
   turn: "NONE",
   started: false,
   cards: [],
+  flippedCount: 0,
+  winner: "NONE",
 }, () => null]);
 
 export default gameStateContext;
