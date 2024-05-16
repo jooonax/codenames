@@ -8,6 +8,7 @@ import {Player} from "../common/models";
 
 const playerContext = createContext<[Player, (_:Player) => void]>([
   {
+    id: -1,
     username: "",
     roomCode: "",
     team: "NONE",

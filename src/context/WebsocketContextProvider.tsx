@@ -73,15 +73,14 @@ const WebsocketContextProvider = ({children}: Props) => {
     }
     setPlayer(player);
     setConnected(true);
+    sessionStorage.setItem("roomCode", player.roomCode);
+    sessionStorage.setItem("id", ""+player.id);
   }
 
   const onConnected = (player: Player) => {
-    stompClient?.subscribe('/user/' + player.username + '/state', (_:any) => {
-      console.log(_.body);
-      websocketFunctions.onGameState(JSON.parse(_.body));
-    });
-    stompClient?.subscribe('/user/' + player.username + '/message', (_:any) => websocketFunctions.onMessage(JSON.parse(_.body)));
-    stompClient?.subscribe('/user/' + player.username + '/player', (_:any) => websocketFunctions.onPlayer(JSON.parse(_.body)));
+    stompClient?.subscribe('/user/' + player.id + '/state', (_:any) => websocketFunctions.onGameState(JSON.parse(_.body)));
+    stompClient?.subscribe('/user/' + player.id + '/message', (_:any) => websocketFunctions.onMessage(JSON.parse(_.body)));
+    stompClient?.subscribe('/user/' + player.id + '/player', (_:any) => websocketFunctions.onPlayer(JSON.parse(_.body)));
     join(player);
   }
   const onError = (err: any) => {

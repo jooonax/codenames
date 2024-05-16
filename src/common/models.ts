@@ -29,6 +29,7 @@ type Card = {
 }
 
 type Player = {
+  id: number;
   username: string;
   roomCode: string;
   team: "NONE" | "RED" | "BLUE";

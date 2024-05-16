@@ -20,15 +20,16 @@ const GamePage = () => {
   const players = usePlayers(player.roomCode);
   return !connected ? <></> : (
     <div>
+      <div>ID: {player.id}</div>
       <div>Username: {player.username}</div>
       <div>Code: {player.roomCode}</div>
       <div>Role: {player.role}</div>
       <div>Team: {player.team}</div>
       <GameChat/>
-      <ChangeRole/>
+      {!gameState.started && <ChangeRole/>}
       <h3>Players in Room:</h3>
       <ul>
-        {players && players.map((p,i) => <li key={i}>{p.username} - {p.team} - {p.role}</li>)}
+        {players && players.map((p,i) => <li key={i}>{p.id} {p.username} - {p.team} - {p.role}</li>)}
       </ul>
       <ClueInput/>
       <h3>Cards in Room:</h3>
@@ -50,6 +51,11 @@ const GamePage = () => {
             Start Game
           </button><br/>
           <strong>{gameState.winner} won the last game</strong>
+      </>}
+      {gameState.started && <>
+          <button type="button" onClick={() => {setGameState({...gameState, started: false, cards: [], turn: "NONE", clue: undefined})}}>
+              End Game
+          </button><br/>
       </>}
     </div>
   );

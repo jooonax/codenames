@@ -13,6 +13,7 @@ interface Props {
 
 const PlayerContextProvider = ({children} : Props) => {
   const [player, setPlayer] = useState<Player>({
+    id: -1,
     username: "",
     roomCode: "",
     role: "NONE",

@@ -27,7 +27,7 @@ const usePlayers = (roomCode:string): Player[] => {
     apiClient.get<Player[]>(`/${roomCode}/players`, {signal: controller.signal})
       .then(res => res.data)
       .then(data => {
-        setPlayer(data.find(p => p.username === player.username) ?? player)
+        setPlayer(data.find(p => p.id === player.id) ?? player)
         setPlayers(data);
       })
   }

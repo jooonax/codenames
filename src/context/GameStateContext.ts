@@ -7,6 +7,7 @@ import {GameState} from "../common/models";
 
 const gameStateContext = createContext<[GameState, (_:GameState) => void]>([{
   sender: {
+    id: 0,
     username: "",
     roomCode: "",
     role: "NONE",

@@ -13,6 +13,7 @@ interface Props {
 const GameStateContextProvider = ({children}:Props) => {
   const [gameState, setGameState] = useState<GameState>({
     sender: {
+      id: 0,
       username: "",
       roomCode: "",
       role: "NONE",
@@ -45,7 +46,6 @@ const GameStateContextProvider = ({children}:Props) => {
   }
 
   const sendGameState = (gs: GameState) => {
-    console.log(gs);
     websocketFunctions.sendGameState({...gs, sender: player});
     setGameState(gs);
   }
