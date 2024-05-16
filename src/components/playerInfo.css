@@ -1,0 +1,15 @@
+.player-info {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+.player-info .name {
+
+}
+
+.player-info .role {
+
+}
+.player-info .team {
+
+}

@@ -4,10 +4,16 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 1vw;
+    width: 74vw;
+    height: 44vw;
+    position: relative;
+    top: 3vw;
+    left: 13vw;
 }
+
 .card {
     width: 14vw;
-    aspect-ratio: 1.4 / 1;
+    aspect-ratio: 1.75 / 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -18,40 +24,54 @@
 .card-back,
 .card-front {
     position: absolute;
-    background-size: 14vw 10vw;
+    background-size: 14vw 8vw;
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
     height: 100%;
     width: 100%;
+    color: #222;
+    font-family: CustomFont, system-ui;
+    display: flex;
+    justify-content: center;
 }
 
 .card-back {
+    font-size: 1vw;
     transform: rotateY(180deg);
     backface-visibility: hidden;
-    background-image: url("/public/card-back.png");
+    background-image: url("/src/assets/card-back-white.png");
+}
+
+.card-back .word {
+    font-size: 1vw;
+    color: #222;
+    position: absolute;
+    bottom: 1.3vh;
 }
 
 .card-front {
-    color: #222;
-    backface-visibility: hidden;
-    background-image: url("/public/card-front.png");
-    display: flex;
-    justify-content: center;
     align-items: center;
+    font-size: 2vw;
+    backface-visibility: hidden;
     font-weight: bold;
 }
 
 .card-flipper {
     position: absolute;
-    top: 1vh;
-    right: 1vw;
+    top: 1.2vh;
+    right: .6vw;
     cursor: pointer;
+    width: 2vw;
+    height: 2vw;
+    border-radius: 50%;
 }
 
 .card-marked {
+    font-size: 1vw;
+    color: #222;
     position: absolute;
-    top: 1vh;
+    bottom: 1.3vh;
     left: 1vw;
 }
 

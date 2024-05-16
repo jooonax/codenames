@@ -1,5 +1,17 @@
+@font-face {
+    font-family: CustomFont;
+    src: url(/src/assets/OldeEnglish.ttf);
+}
+
 .none {
-    font-family: "Jacquard 24", system-ui;
+    font-family: CustomFont, system-ui;
     font-weight: 400;
     font-style: normal;
+}
+div {
+    color: white;
+}
+body {
+    background-color: black;
+    margin: 0;
 }

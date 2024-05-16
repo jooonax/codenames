@@ -12,6 +12,8 @@ import usePlayers from "../hooks/usePlayers";
 import CardComponent from "../components/CardComponent";
 import ChangeRole from "../components/ChangeRole";
 import ClueInput from "../components/ClueInput";
+import Table from "../components/Table";
+import PlayerInfo from "../components/PlayerInfo";
 
 const GamePage = () => {
   const [gameState, setGameState] = useContext(GameStateContext);
@@ -20,11 +22,7 @@ const GamePage = () => {
   const players = usePlayers(player.roomCode);
   return !connected ? <></> : (
     <div>
-      <div>ID: {player.id}</div>
-      <div>Username: {player.username}</div>
-      <div>Code: {player.roomCode}</div>
-      <div>Role: {player.role}</div>
-      <div>Team: {player.team}</div>
+      <PlayerInfo/>
       <GameChat/>
       {!gameState.started && <ChangeRole/>}
       <h3>Players in Room:</h3>
@@ -40,11 +38,7 @@ const GamePage = () => {
         <strong>Blue cards left: {gameState.cards.filter(c => c.color === "BLUE" && !c.flipped).length}</strong>
       </>)}
 
-      {gameState.cards &&
-            <div className="cards">
-              {gameState.cards.map((c, i) => <CardComponent key={i} card={c}/>)}
-            </div>
-      }
+      <Table/>
 
       {!gameState.started && <>
           <button type="button" onClick={() => websocketFunctions.start()} className={"btn btn-lg btn-primary"}>

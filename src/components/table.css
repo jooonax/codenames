@@ -1,0 +1,14 @@
+.table {
+    background-image: url("/src/assets/table.png");
+    background-size: 100vw 70vw;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    min-height: 50vw;
+    z-index: -1;
+}

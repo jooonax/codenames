@@ -12,7 +12,7 @@ const ClueInput = () => {
   const [clue, setClue] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
 
-  return player.team === gameState.turn && player.role === "MASTER" && !gameState.clue ? (
+  return gameState.turn != "NONE" && player.team === gameState.turn && player.role === "MASTER" && !gameState.clue ? (
     <>
       <div className={"mb-2"}>
         <input type="text" className={'form-control form-control-lg'} placeholder={"clue"}

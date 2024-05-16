@@ -3,12 +3,13 @@
 // Date: 2024-05-10
 // Time: 11:31:43
 
-import React, {MouseEvent, useContext, useState} from 'react';
+import React, {CSSProperties, MouseEvent, useContext, useState} from 'react';
 import {Card} from "../common/models";
 import PlayerContext from "../context/PlayerContext";
-import "./card.css";
 import GameStateContext from "../context/GameStateContext";
 import gameStateContext from "../context/GameStateContext";
+import "./card.css";
+import * as url from "url";
 
 interface Props {
   card: Card;
@@ -71,15 +72,32 @@ const CardComponent = ({card}: Props) => {
     )
   }
 
+  const cardStyle = () : CSSProperties => {
+    if (player.role !== 'MASTER') return {
+      backgroundImage: 'url("/src/assets/card-front-white.png")',
+      backgroundSize: "14vw 8vw",
+    };
+    return {
+      backgroundImage: 'url("/src/assets/card-front-'+ card.color.toLocaleLowerCase() +'.png")',
+      backgroundSize: "14vw 8vw",
+    } as CSSProperties;
+  }
+
   return (
     <div className={card.flipped ? "flipped" : ""} onClick={handleMarked}>
-      <div className="card">
+      <div className="card" style={cardStyle()}>
         <div className="card-front">
-          <div className="card-flipper" onClick={handleFlip}>Flip</div>
-          <div className="card-marked">{card.marked}</div>
-          {card.word}{player.role === 'MASTER' ? " - " + card.color : ""}
+          <div className="card-flipper" onClick={handleFlip}></div>
+          <div className="card-marked">{card.marked.join(", ")}</div>
+          {card.word}
         </div>
-        <div className="card-back">
+        <div className="card-back" style={{
+          backgroundImage: 'url("/src/assets/card-back-'+ card.color.toLocaleLowerCase() +'.png")',
+          backgroundSize: "14vw 8vw",
+        }}>
+          <div className="word">
+            {card.word}
+          </div>
         </div>
       </div>
     </div>
