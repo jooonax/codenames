@@ -1,9 +1,6 @@
 .table {
     background-image: url("/src/assets/table.png");
     background-size: 100vw 70vw;
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
     position: absolute;
     top: 0;
     left: 0;

@@ -8,8 +8,8 @@ import {Card} from "../common/models";
 import PlayerContext from "../context/PlayerContext";
 import GameStateContext from "../context/GameStateContext";
 import gameStateContext from "../context/GameStateContext";
-import "./card.css";
 import * as url from "url";
+import "./card.css";
 
 interface Props {
   card: Card;
@@ -74,11 +74,12 @@ const CardComponent = ({card}: Props) => {
 
   const cardStyle = () : CSSProperties => {
     if (player.role !== 'MASTER') return {
-      backgroundImage: 'url("/src/assets/card-front-white.png")',
+      backgroundImage: 'url("/src/assets/flipper.png"), url("/src/assets/lines.png"), url("/src/assets/card.png")',
       backgroundSize: "14vw 8vw",
     };
     return {
-      backgroundImage: 'url("/src/assets/card-front-'+ card.color.toLocaleLowerCase() +'.png")',
+      backgroundImage: 'url("/src/assets/flipper.png"), url("/src/assets/top-left-'+ card.color.toLocaleLowerCase() +'.png")' +
+        ', url("/src/assets/lines.png"), url("/src/assets/card.png")',
       backgroundSize: "14vw 8vw",
     } as CSSProperties;
   }
@@ -92,7 +93,8 @@ const CardComponent = ({card}: Props) => {
           {card.word}
         </div>
         <div className="card-back" style={{
-          backgroundImage: 'url("/src/assets/card-back-'+ card.color.toLocaleLowerCase() +'.png")',
+          backgroundImage: 'url("/src/assets/card-back-'+ card.color.toLocaleLowerCase() +'.png"),' +
+            ' url("/src/assets/lines.png"), url("/src/assets/card.png")',
           backgroundSize: "14vw 8vw",
         }}>
           <div className="word">

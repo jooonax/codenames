@@ -1,15 +1,14 @@
 .player-info {
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
+    position: absolute;
+    bottom: 1vw;
+    left: 1vw;
+    justify-content: normal;
+    font-family: CustomFont, system-ui;
 }
-.player-info .name {
 
-}
-
-.player-info .role {
-
-}
-.player-info .team {
-
+.player-info-front {
+    padding-left: 1vw;
+    justify-content: normal;
+    width: 9vw;
+    overflow: hidden;
 }

@@ -20,8 +20,8 @@ const HomePage = () => {
       .then(id => {
         websocketFunctions.connect({
           id: id,
-          username: username.length >= 3 ? username : "player_"+Date.now(),
-          roomCode: roomCode.length == 0 ? Date.now().toString() : roomCode,
+          username: username.length >= 3 && username.length <= 13 ? username : "player_"+id,
+          roomCode: roomCode.length == 0 ? "ROOM_"+id : roomCode,
           role: "NONE",
           team: "NONE",
         })
