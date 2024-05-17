@@ -14,6 +14,7 @@ import ChangeRole from "../components/ChangeRole";
 import ClueInput from "../components/ClueInput";
 import Table from "../components/Table";
 import PlayerInfo from "../components/PlayerInfo";
+import GameOverview from "../components/GameOverview";
 
 const GamePage = () => {
   const [gameState, setGameState] = useContext(GameStateContext);
@@ -23,6 +24,11 @@ const GamePage = () => {
   return !connected ? <></> : (
     <div>
       <PlayerInfo/>
+      <GameOverview/>
+      <Table/>
+
+      {/*Under Construction*/}
+      <div style={{height: "60vh"}}></div>
       <GameChat/>
       {!gameState.started && <ChangeRole/>}
       <h3>Players in Room:</h3>
@@ -30,16 +36,6 @@ const GamePage = () => {
         {players && players.map((p,i) => <li key={i}>{p.id} {p.username} - {p.team} - {p.role}</li>)}
       </ul>
       <ClueInput/>
-      <h3>Cards in Room:</h3>
-      {gameState.started && (<>
-        <strong>{gameState.turn} teams turn</strong><br/>
-        <strong>Current clue: {gameState.clue?.word} - {gameState.clue?.amount}</strong><br/>
-        <strong>Red cards left: {gameState.cards.filter(c => c.color === "RED" && !c.flipped).length}</strong><br/>
-        <strong>Blue cards left: {gameState.cards.filter(c => c.color === "BLUE" && !c.flipped).length}</strong>
-      </>)}
-
-      <Table/>
-
       {!gameState.started && <>
           <button type="button" onClick={() => websocketFunctions.start()} className={"btn btn-lg btn-primary"}>
             Start Game

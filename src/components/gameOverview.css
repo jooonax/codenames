@@ -1,0 +1,44 @@
+.game-overview {
+    position: absolute;
+    top: 10vw;
+    right: 1vw;
+    justify-content: normal;
+    font-family: CustomFont, system-ui;
+}
+
+.cards-left-red {
+    font-size: 2.5vw;
+    color: #222;
+    position: absolute;
+    bottom: 1vw;
+    left: 4vw;
+}
+.cards-left-blue {
+    font-size: 2.5vw;
+    color: #222;
+    position: absolute;
+    bottom: 1vw;
+    left: 8.5vw;
+}
+
+.clue {
+    font-size: 2vw;
+    color: #222;
+    position: absolute;
+    top: .5vw;
+    left: 1vw;
+    width: 10vw;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+.clue:hover {
+    overflow-x: scroll;
+}
+
+.clue-number {
+    font-size: 2.4vw;
+    color: #222;
+    position: absolute;
+    top: .1vw;
+    right: .8vw;
+}

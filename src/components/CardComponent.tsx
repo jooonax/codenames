@@ -19,14 +19,16 @@ const CardComponent = ({card}: Props) => {
   const [player, setPlayer] = useContext(PlayerContext);
   const [gameState, setGameState] = useContext(GameStateContext);
   let textColor = 'inherit';
+
+  const cantFlip = () => {
+    return player.role !== "OPERATOR" ||
+      player.team != gameState.turn ||
+      !gameState.clue;
+  }
   const handleFlip = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
 
-    if (
-      player.role !== "OPERATOR" ||
-      player.team != gameState.turn ||
-      !gameState.clue
-    ) {
+    if (cantFlip() || !gameState.clue) {
       return;
     }
 
@@ -74,26 +76,31 @@ const CardComponent = ({card}: Props) => {
 
   const cardStyle = () : CSSProperties => {
     if (player.role !== 'MASTER') return {
-      backgroundImage: 'url("/src/assets/flipper.png"), url("/src/assets/lines.png"), url("/src/assets/card.png")',
+      backgroundImage: getFlipper() + 'url("/src/assets/lines.png"), url("/src/assets/card.png")',
       backgroundSize: "14vw 8vw",
     };
     return {
-      backgroundImage: 'url("/src/assets/flipper.png"), url("/src/assets/top-left-'+ card.color.toLocaleLowerCase() +'.png")' +
+      backgroundImage: getFlipper() + 'url("/src/assets/top-left-'+ card.color.toLocaleLowerCase() +'.png")' +
         ', url("/src/assets/lines.png"), url("/src/assets/card.png")',
       backgroundSize: "14vw 8vw",
     } as CSSProperties;
+  }
+
+  const getFlipper = () => {
+    return !cantFlip() ?  'url("/src/assets/flipper.png"), ' : "";
   }
 
   return (
     <div className={card.flipped ? "flipped" : ""} onClick={handleMarked}>
       <div className="card" style={cardStyle()}>
         <div className="card-front">
-          <div className="card-flipper" onClick={handleFlip}></div>
+          {!cantFlip() && <div className="card-flipper" onClick={handleFlip}></div>}
           <div className="card-marked">{card.marked.join(", ")}</div>
-          {card.word}
+          <div className="card-word">{card.word}</div>
         </div>
+
         <div className="card-back" style={{
-          backgroundImage: 'url("/src/assets/card-back-'+ card.color.toLocaleLowerCase() +'.png"),' +
+          backgroundImage: 'url("/src/assets/back-'+ card.color.toLocaleLowerCase() +'.png"),' +
             ' url("/src/assets/lines.png"), url("/src/assets/card.png")',
           backgroundSize: "14vw 8vw",
         }}>
