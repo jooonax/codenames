@@ -12,6 +12,8 @@
 }
 
 .card {
+    box-shadow: 0 .5vw .5vw black ;
+    border-radius: .3vw;
     width: 14vw;
     aspect-ratio: 1.75 / 1;
     display: flex;
@@ -22,7 +24,10 @@
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
 }
-
+.card:hover {
+    transform: rotateZ(1deg);
+    transition: 100ms;
+}
 .card-back,
 .card-front {
     position: absolute;

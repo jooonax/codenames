@@ -18,3 +18,11 @@
 .player-info-front:hover {
     overflow-x: auto;
 }
+.player-role {
+    position: absolute;
+    top: .7vw;
+    right: .7vw;
+    cursor: pointer;
+    width: 3.3vw;
+    height: 3.3vw;
+}

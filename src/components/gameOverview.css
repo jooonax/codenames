@@ -20,7 +20,6 @@
     bottom: 1vw;
     left: 8.5vw;
 }
-
 .clue {
     font-size: 2vw;
     color: #222;
@@ -35,7 +34,7 @@
     overflow-x: scroll;
 }
 
-.clue-number {
+.clue .clue-number {
     font-size: 2.4vw;
     color: #222;
     position: absolute;

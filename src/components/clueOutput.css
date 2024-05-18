@@ -1,0 +1,34 @@
+.clue-output {
+    background-image: url("/src/assets/clue-output.png");
+    background-size: 28vw 4vw;
+    position: fixed;
+    width: 28vw;
+    height: 4vw;
+    bottom: 0;
+    left: 36vw;
+    font-family: CustomFont, system-ui;
+    display: flex;
+    align-items: center;
+    backface-visibility: hidden;-webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+    box-shadow: 0 -.1vw .2vw black ;
+    border-radius: .3vw .3vw 0 0;
+}
+
+.clue-word {
+    font-size: 3vw;
+    left: 1vw;
+    width: 22.5vw;
+    position: relative;
+    color: #222;
+    white-space: nowrap;
+    overflow: scroll;
+}
+
+.clue-number {
+    font-size: 3vw;
+    left: 2.25vw;
+    position: relative;
+    color: #222;
+}

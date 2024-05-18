@@ -15,6 +15,8 @@ import ClueInput from "../components/ClueInput";
 import Table from "../components/Table";
 import PlayerInfo from "../components/PlayerInfo";
 import GameOverview from "../components/GameOverview";
+import ClueOutput from "../components/ClueOutput";
+import PlayerList from "../components/PlayerList";
 
 const GamePage = () => {
   const [gameState, setGameState] = useContext(GameStateContext);
@@ -26,15 +28,12 @@ const GamePage = () => {
       <PlayerInfo/>
       <GameOverview/>
       <Table/>
+      <ClueOutput/>
+      <PlayerList/>
 
       {/*Under Construction*/}
-      <div style={{height: "60vh"}}></div>
       <GameChat/>
       {!gameState.started && <ChangeRole/>}
-      <h3>Players in Room:</h3>
-      <ul>
-        {players && players.map((p,i) => <li key={i}>{p.id} {p.username} - {p.team} - {p.role}</li>)}
-      </ul>
       <ClueInput/>
       {!gameState.started && <>
           <button type="button" onClick={() => websocketFunctions.start()} className={"btn btn-lg btn-primary"}>

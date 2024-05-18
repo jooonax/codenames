@@ -1,0 +1,44 @@
+.clue-input {
+    background-image: url("/src/assets/clue-output.png");
+    background-size: 28vw 4vw;
+    position: fixed;
+    width: 28vw;
+    height: 4vw;
+    bottom: 0;
+    left: 4vw;
+    font-family: CustomFont, system-ui;
+    display: flex;
+    align-items: center;
+    backface-visibility: hidden;-webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+    box-shadow: 0 -.1vw .2vw black ;
+    border-radius: .3vw .3vw 0 0;
+}
+
+.clue-input .clue-word {
+    border:none;
+    background: transparent;
+    padding: 0;
+    outline: 0;
+    font-family: CustomFont, system-ui;
+}
+.clue-input .clue-number {
+    border:none;
+    background: transparent;
+    padding: 0;
+    outline: 0;
+    width: 3vw;
+    font-family: CustomFont, system-ui;
+}
+/*
+input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    margin: 0;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}*/

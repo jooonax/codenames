@@ -2,7 +2,6 @@ import React, {CSSProperties, useContext} from 'react';
 import PlayerContext from "../context/PlayerContext";
 import "./playerInfo.css";
 import {Simulate} from "react-dom/test-utils";
-import play = Simulate.play;
 import WebsocketContext from "../context/WebsocketContext";
 
 // Project: codenames
@@ -16,7 +15,7 @@ const PlayerInfo = () => {
 
   const getStyle = ():CSSProperties => {
     return {
-      backgroundImage: getTeamImage() + getRoleImage() + 'url("/src/assets/lines.png"), url("/src/assets/card.png")',
+      backgroundImage: getTeamImage() + 'url("/src/assets/lines.png"), url("/src/assets/card.png")',
       backgroundSize: "14vw 8vw",
     }
   }
@@ -27,22 +26,28 @@ const PlayerInfo = () => {
     }
   }
 
-  const getRoleImage = () => {
-    return (player.role !== "NONE" ?
-      'url("/src/assets/'+ (player.role === "MASTER" ?
+  const getRoleStyle = (): CSSProperties => {
+    return {
+      backgroundImage: (player.role !== "NONE" ?
+      'url("/src/assets/' + (player.role === "MASTER" ?
         "duke" : "rouge") +
-      '.png"), ': "")
+      '.png")' : ""),
+      backgroundSize: "3.3vw 3.3vw",
   }
+  }
+
   const getTeamImage = () => {
     return (player.team !== "NONE" ?
       'url("/src/assets/top-left-'+ player.team.toLocaleLowerCase() +
-      '.png"), ': "")
+      '.png"), ': 'url("/src/assets/top-left-white.png"), ')
   }
 
   return (
     <div className="card player-info" style={getStyle()}>
       <div className="card-front player-info-front" onClick={changeUsername}>{player.username}</div>
-      <div className="card-marked">{player.roomCode}</div>
+      <div className="card-marked">Code: {player.roomCode}</div>
+
+      <div className="player-role" style={getRoleStyle()}></div>
     </div>
   );
 };

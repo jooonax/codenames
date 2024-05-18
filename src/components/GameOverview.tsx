@@ -20,10 +20,8 @@ const GameOverview = () => {
   }
   return gameState.started ?
     <div className="card game-overview" style={getStyle()}>
-      <div className="clue">{gameState.clue ? gameState.clue.word : "Clue Loading"}</div>
-      <div className="clue-number">{gameState.clue?.amount}</div>
-      <div className="cards-left-red">{gameState.cards.filter(c => c.color === "RED" && !c.flipped).length}</div>
-      <div className="cards-left-blue">{gameState.cards.filter(c => c.color === "BLUE" && !c.flipped).length}</div>
+      <div className="cards-left-red">{gameState.cards.filter(c => c.color === "BLUE" && !c.flipped).length}</div>
+      <div className="cards-left-blue">{gameState.cards.filter(c => c.color === "RED" && !c.flipped).length}</div>
     </div> : <></>;
 };
 
