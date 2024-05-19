@@ -32,10 +32,10 @@ const GamePage = () => {
       <ClueOutput/>
       <PlayerList/>
       <GameButton/>
+      <ChangeRole/>
 
       {/*Under Construction*/}
       {/*<GameChat/>*/}
-      {!gameState.started && <ChangeRole/>}
       <ClueInput/>
       {!gameState.started && <>
 

@@ -3,45 +3,51 @@
 // Date: 2024-05-14
 // Time: 14:04:27
 
-import React, {ChangeEvent, useContext} from 'react';
+import React, {useContext} from 'react';
 import WebsocketContext from "../context/WebsocketContext";
 import PlayerContext from "../context/PlayerContext";
+import "./changeRole.css"
+import GameStateContext from "../context/GameStateContext";
 
 const ChangeRole = () => {
   const [websocketFunctions, _2, connected] = useContext(WebsocketContext);
   const [player, setPlayer] = useContext(PlayerContext);
+  const [gameState, setGameState] = useContext(GameStateContext);
 
-  const handleTeam = (e:ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value == "NONE" || e.target.value == "RED" || e.target.value == "BLUE") {
-      websocketFunctions.changeRole({...player, team: e.target.value});
+  const handleTeam = (team: "RED" | "BLUE" | "NONE") => {
+    let role = player.role;
+    if (player.team === team) {
+      team = "NONE";
+      role = "NONE";
     }
+    websocketFunctions.changeRole({...player, team: team, role: role});
+  }
+  const handleRole = (role: "OPERATOR" | "MASTER" | "NONE") => {
+    if (player.role === role) {
+      role = "NONE";
+    }
+    websocketFunctions.changeRole({...player, role: role});
   }
 
-  const handleRole = (e:ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.value == "NONE" || e.target.value == "MASTER" || e.target.value == "OPERATOR") {
-      websocketFunctions.changeRole({...player, role: e.target.value});
-    }
-  }
-
-  return (
+  return gameState.started && player.role !== "NONE" && player.team !== "NONE" ? <></> : (
     <>
-      <div className="mb-3">
-        <label htmlFor="sRole" className="form-label">ROLE</label>
-        <select className="form-select" aria-label="Default select example" id={"sRole"} value={player.role}
-                onChange={handleRole}>
-          <option value="NONE">NONE</option>
-          <option value="MASTER">MASTER</option>
-          <option value="OPERATOR">OPERATOR</option>
-        </select>
-      </div>
-      <div className="mb-3">
-        <label htmlFor="sTeam" className="form-label">TEAM</label>
-        <select className="form-select" aria-label="Default select example" id={"sTeam"} value={player.team}
-                onChange={handleTeam}>
-          <option value="NONE">NONE</option>
-          <option value="RED">RED</option>
-          <option value="BLUE">BLUE</option>
-        </select>
+      <div className="role-change" style={gameState.started ? {top: "23vw"} : {}}>
+
+        {gameState.started && player.team !== "NONE" ? <></> : <>
+          <div className={"role-change-red" + (player.team === "RED" ? " role-change-selected" : "")}
+               onClick={() => handleTeam("RED")}></div>
+
+          <div className={"role-change-blue"  + (player.team === "BLUE" ? " role-change-selected" : "")}
+               onClick={() => handleTeam("BLUE")}></div>
+        </>}
+
+        {gameState.started && player.role !== "NONE" || player.team === "NONE" ? <></> : <>
+          <div className={"role-change-duke" + (player.role === "MASTER" ? " role-change-selected" : "")}
+               onClick={() => handleRole("MASTER")}></div>
+
+          <div className={"role-change-rouge" + (player.role === "OPERATOR" ? " role-change-selected" : "")}
+          onClick={() => handleRole("OPERATOR")}></div>
+        </>}
       </div>
     </>
   );

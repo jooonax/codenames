@@ -1,0 +1,46 @@
+.role-change {
+    position: absolute;
+    width: 14vw;
+    height: 3vw;
+    background-image: url("/src/assets/banner.png");
+    background-size: 14vw 3vw;
+    right: 1vw;
+    top: 14vw;
+    box-shadow: 0 .5vw .5vw black ;
+    border-radius: .3vw;
+}
+.role-change-duke,
+.role-change-rouge,
+.role-change-red,
+.role-change-blue {
+    opacity: 0.7;
+    position: absolute;
+    width: 2vw;
+    height: 2vw;
+    background-size: 2vw 2vw;
+    top: .5vw;
+}
+.role-change-red {
+    background-image: url("/src/assets/back-red.png");
+    background-size: 7vw 4vw;
+    background-position: -2.5vw -.7vw;
+    left: 1.5vw;
+}
+.role-change-blue {
+    background-image: url("/src/assets/back-blue.png");
+    background-size: 7vw 4vw;
+    background-position: -2.5vw -.7vw;
+    left: 4.5vw;
+}
+.role-change-duke {
+    background-image: url("/src/assets/duke.png");
+    left: 7.5vw;
+}
+.role-change-rouge {
+    background-image: url("/src/assets/rouge.png");
+    left: 10.5vw;
+}
+
+.role-change-selected {
+    opacity: 1;
+}
