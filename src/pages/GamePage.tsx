@@ -17,6 +17,7 @@ import PlayerInfo from "../components/PlayerInfo";
 import GameOverview from "../components/GameOverview";
 import ClueOutput from "../components/ClueOutput";
 import PlayerList from "../components/PlayerList";
+import GameButton from "../components/GameButton";
 
 const GamePage = () => {
   const [gameState, setGameState] = useContext(GameStateContext);
@@ -30,21 +31,15 @@ const GamePage = () => {
       <Table/>
       <ClueOutput/>
       <PlayerList/>
+      <GameButton/>
 
       {/*Under Construction*/}
-      <GameChat/>
+      {/*<GameChat/>*/}
       {!gameState.started && <ChangeRole/>}
       <ClueInput/>
       {!gameState.started && <>
-          <button type="button" onClick={() => websocketFunctions.start()} className={"btn btn-lg btn-primary"}>
-            Start Game
-          </button><br/>
+
           <strong>{gameState.winner} won the last game</strong>
-      </>}
-      {gameState.started && <>
-          <button type="button" onClick={() => {setGameState({...gameState, started: false, cards: [], turn: "NONE", clue: undefined})}}>
-              End Game
-          </button><br/>
       </>}
     </div>
   );

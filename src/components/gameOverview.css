@@ -1,24 +1,24 @@
 .game-overview {
     position: absolute;
-    top: 10vw;
+    top: 14vw;
     right: 1vw;
     justify-content: normal;
     font-family: CustomFont, system-ui;
 }
 
 .cards-left-red {
-    font-size: 2.5vw;
+    font-size: 3vw;
     color: #222;
     position: absolute;
-    bottom: 1vw;
-    left: 4vw;
+    top: .8vw;
+    left: 5vw;
 }
 .cards-left-blue {
-    font-size: 2.5vw;
+    font-size: 3vw;
     color: #222;
     position: absolute;
-    bottom: 1vw;
-    left: 8.5vw;
+    bottom: .8vw;
+    left: 5vw;
 }
 .clue {
     font-size: 2vw;

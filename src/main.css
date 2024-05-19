@@ -3,11 +3,6 @@
     src: url(/src/assets/OldeEnglish.ttf);
 }
 
-.none {
-    font-family: CustomFont, system-ui;
-    font-weight: 400;
-    font-style: normal;
-}
 div {
     color: white;
 }

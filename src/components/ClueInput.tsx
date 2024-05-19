@@ -14,19 +14,25 @@ const ClueInput = () => {
   const [amount, setAmount] = useState<number>(0);
 
   const sendClue = () => {
-    if (confirm("Send Clue")) {
+    if (clue.length > 0) {
       setGameState({...gameState, clue: {word: clue, amount: amount}});
+    }
+  }
+  const changeAmount = (n: number) => {
+    if (amount+n >= 0 && amount+n <= 9) {
+      setAmount(amount+n);
     }
   }
 
   return gameState.turn !== "NONE" && player.team === gameState.turn && player.role === "MASTER" && !gameState.clue ? (
     <>
       <div className="clue-input">
-          <input type="text" className="clue-word" placeholder={"clue"}
-                 onChange={(e) => setClue(e.target.value)}
-                 onKeyPress={(event) => event.key === "Enter" ? sendClue() : null}/>
-        <input type="number"  className="clue-number" max={9} min={0} placeholder={"0"}
-               onChange={(e) => setAmount(+e.target.value)}/>
+          <input type="text" className="clue-word" placeholder={"clue"} value={clue}
+                 onChange={(e) => setClue(e.target.value)}/>
+        <div className="clue-number">{amount}</div>
+        <div className="clue-number-increase" onClick={() => changeAmount(1)}></div>
+        <div className="clue-number-decrease" onClick={() => changeAmount(-1)}></div>
+        <div className="clue-send" onClick={sendClue}></div>
       </div>
     </>
   ) : <></>;

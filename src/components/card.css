@@ -24,7 +24,7 @@
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
 }
-.card:hover {
+.cards .card:hover {
     transform: rotateZ(1deg);
     transition: 100ms;
 }
@@ -38,6 +38,7 @@
     font-family: CustomFont, system-ui;
     display: flex;
     justify-content: center;
+    font-weight: bold;
 }
 
 .card-back {
@@ -48,10 +49,10 @@
 }
 
 .card-back .word {
-    font-size: 1vw;
+    font-size: 1.2vw;
     color: #222;
     position: absolute;
-    bottom: 1.3vh;
+    bottom: 1vh;
 }
 
 .card-front {
@@ -59,7 +60,6 @@
     font-size: 2vw;
     overflow-x: hidden;
     backface-visibility: hidden;
-    font-weight: bold;
 }
 .card-word {
     color: #222;
