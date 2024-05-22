@@ -11,16 +11,17 @@ const GameChat = () => {
     const [player] = useContext(playerContext);
     const [gameState, setGameState] = useContext(gameStateContext);
     const [message, setMessage] = useState<string>("");
-
+    const parameters: string[] = [];
 
     const handleSendMessage = () => {
         if (message.trim()) {
             sendMessage({
                 date: new Date().toISOString(),
                 sender: player,
+                receivers: parameters.join(","),
                 message: message
             });
-            setMessage(""); // Clear the input after sending the message
+            setMessage("");
         }
     };
 

@@ -1,6 +1,7 @@
 interface ChatMessage {
   sender: Player;
   message?: string;
+  receivers: string;
   date: string;
 }
 
