@@ -8,11 +8,13 @@ import websocketContext from "../context/WebsocketContext";
 import PlayerContext from "../context/PlayerContext";
 import CardComponent from "../components/CardComponent";
 import apiClient from "../service/apiClient";
+import {useNavigate} from "react-router-dom";
 
 const HomePage = () => {
   const [websocketFunctions, setWebsocketFunctions, connected] = useContext(websocketContext);
-  const [username, setUsername] = useState<string>("");
-  const [roomCode, setRoomCode] = useState<string>("");
+    const [username, setUsername] = useState<string>("");
+    const [roomCode, setRoomCode] = useState<string>("");
+    const navigate = useNavigate();
 
   const connect = () => {
     apiClient.get<number>("/id")
@@ -25,21 +27,14 @@ const HomePage = () => {
           role: "NONE",
           team: "NONE",
         })
+        navigate("/game");
       });
+
+
   }
 
   const connectToLast = () => {
-    let roomCode = sessionStorage.getItem("roomCode")
-    let idString = sessionStorage.getItem("id");
-    if (!roomCode || !idString) return;
-    let id = +idString;
-    websocketFunctions.connect({
-      id: id,
-      roomCode: roomCode,
-      username: "rejoin",
-      role: "NONE",
-      team: "NONE",
-    })
+      navigate("/game");
   }
 
   return connected ? <></> : (

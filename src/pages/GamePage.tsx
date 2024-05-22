@@ -3,7 +3,7 @@
 // Date: 2024-05-07
 // Time: 13:56:57
 
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import GameStateContext from "../context/GameStateContext";
 import GameChat from "../components/GameChat";
 import websocketContext from "../context/WebsocketContext";
@@ -18,14 +18,40 @@ import GameOverview from "../components/GameOverview";
 import ClueOutput from "../components/ClueOutput";
 import PlayerList from "../components/PlayerList";
 import GameButton from "../components/GameButton";
+import {useNavigate} from "react-router-dom";
+import {Simulate} from "react-dom/test-utils";
+import play = Simulate.play;
 
 const GamePage = () => {
   const [gameState, setGameState] = useContext(GameStateContext);
   const [player, setPlayer] = useContext(PlayerContext);
   const [websocketFunctions, _2, connected] = useContext(websocketContext);
   const players = usePlayers(player.roomCode);
+  const navigate = useNavigate();
+
+    useEffect(() => {
+
+        connectToLast();
+
+    }, []);
+
+    const connectToLast = () => {
+        let roomCode = sessionStorage.getItem("roomCode")
+        let idString = sessionStorage.getItem("id");
+        if (!roomCode || !idString) return;
+        let id = +idString;
+        websocketFunctions.connect({
+            id: id,
+            roomCode: roomCode,
+            username: "rejoin",
+            role: "NONE",
+            team: "NONE",
+        })
+    }
+
   return !connected ? <></> : (
     <div>
+
       <PlayerInfo/>
       <GameOverview/>
       <Table/>

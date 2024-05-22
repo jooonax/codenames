@@ -7,6 +7,7 @@ import GameChatContextProvider from "./context/GameChatContextProvider";
 import HomePage from "./pages/HomePage";
 import WebsocketContextProvider from "./context/WebsocketContextProvider";
 import websocketContext from "./context/WebsocketContext";
+import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 
 const App: React.FC = () => {
 
@@ -18,8 +19,12 @@ const App: React.FC = () => {
           <GameStateContextProvider>
             <GameChatContextProvider>
 
-              <GamePage/>
-              <HomePage/>
+              <Router>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/game" element={<GamePage />} />
+                </Routes>
+              </Router>
 
             </GameChatContextProvider>
           </GameStateContextProvider>
