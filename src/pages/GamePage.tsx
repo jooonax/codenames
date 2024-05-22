@@ -70,6 +70,9 @@ const GamePage = () => {
 
           <strong>{gameState.winner} won the last game</strong>
       </>}
+        <div className="game-chat">
+            <GameChat/>
+        </div>
     </div>
   );
 };
