@@ -1,7 +1,6 @@
 interface ChatMessage {
   sender: Player;
   message?: string;
-  status: 'JOIN' | 'MESSAGE';
   date: string;
 }
 
