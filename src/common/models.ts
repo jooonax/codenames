@@ -37,6 +37,7 @@ type Player = {
 
 type WebsocketFunctions = {
   connect: (_:Player) => void;
+  disconnect: (_:Player) => void;
   start: () => void;
   changeRole: (_:Player) => void;
   sendMessage: (_:ChatMessage) => void;

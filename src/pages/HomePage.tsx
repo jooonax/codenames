@@ -9,24 +9,28 @@ import PlayerContext from "../context/PlayerContext";
 import CardComponent from "../components/CardComponent";
 import apiClient from "../service/apiClient";
 import {useNavigate} from "react-router-dom";
+import {Player} from "../common/models";
 
 const HomePage = () => {
   const [websocketFunctions, setWebsocketFunctions, connected] = useContext(websocketContext);
     const [username, setUsername] = useState<string>("");
     const [roomCode, setRoomCode] = useState<string>("");
+    const [player, setPlayer] = useContext(PlayerContext);
     const navigate = useNavigate();
 
   const connect = () => {
     apiClient.get<number>("/id")
       .then(res => res.data)
       .then(id => {
-        websocketFunctions.connect({
+        let p = {
           id: id,
           username: username.length >= 3 && username.length <= 13 ? username : "player_"+id,
           roomCode: roomCode.length == 0 ? "ROOM_"+id : roomCode,
           role: "NONE",
           team: "NONE",
-        })
+        } as Player;
+        setPlayer(p);
+        websocketFunctions.connect(p);
         navigate("/game");
       });
 
