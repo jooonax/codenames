@@ -11,10 +11,12 @@ import WebsocketContext from "./WebsocketContext";
 import PlayerContext from "./PlayerContext";
 import websocketContext from "./WebsocketContext";
 import {send} from "vite";
+import {useNavigate} from "react-router-dom";
 
 let stompClient: Client | null = null;
 let websocketFunctions: WebsocketFunctions = {
   connect: (_:Player) => {},
+  disconnect: () => {},
   start: () => {},
   changeRole: () => {},
   onGameState: (_: GameState) => {},
@@ -33,6 +35,7 @@ interface Props {
 const WebsocketContextProvider = ({children}: Props) => {
   const [player, setPlayer] = useContext(PlayerContext);
   const [connected, setConnected] = useState(false);
+  const navigate = useNavigate();
 
   websocketFunctions = {...websocketFunctions,
     connect: (p:Player) => {
@@ -44,6 +47,14 @@ const WebsocketContextProvider = ({children}: Props) => {
       stompClient = over(Sock);
       stompClient.connect({}, () => onConnected(p), onError);
     },
+    disconnect: (p: Player) => {
+      if (stompClient?.connected) {
+        stompClient.send("/app/disconnect", {}, JSON.stringify(p));
+        stompClient.disconnect(() => navigate("/"));
+        setConnected(false);
+        sessionStorage.clear();
+      }
+    },
     start: () => {
       if (stompClient) {
         stompClient.send("/app/start", {}, player.roomCode);
@@ -52,7 +63,7 @@ const WebsocketContextProvider = ({children}: Props) => {
     changeRole: (newPlayer:Player) => {
       if (stompClient) {
         stompClient.send("/app/role", {}, JSON.stringify(newPlayer));
-        websocketFunctions.onPlayer(newPlayer);
+        websocketFunctions?.onPlayer(newPlayer);
       }
     },
     sendGameState: (gs: GameState) => {

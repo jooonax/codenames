@@ -14,22 +14,22 @@ const App: React.FC = () => {
 
   return (
     <>
-    <PlayerContextProvider>
-      <WebsocketContextProvider>
-          <GameStateContextProvider>
-            <GameChatContextProvider>
+    <Router>
+      <PlayerContextProvider>
+        <WebsocketContextProvider>
+            <GameStateContextProvider>
+              <GameChatContextProvider>
 
-              <Router>
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/game" element={<GamePage />} />
-                </Routes>
-              </Router>
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/game" element={<GamePage />} />
+                  </Routes>
 
-            </GameChatContextProvider>
-          </GameStateContextProvider>
-      </WebsocketContextProvider>
-    </PlayerContextProvider>
+              </GameChatContextProvider>
+            </GameStateContextProvider>
+        </WebsocketContextProvider>
+      </PlayerContextProvider>
+    </Router>
     </>
   )
 

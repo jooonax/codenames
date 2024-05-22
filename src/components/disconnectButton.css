@@ -1,0 +1,25 @@
+.disconnect-button {
+    position: absolute;
+    bottom: 1vw;
+    left: 1vw;
+    width: 14vw;
+    height: 3vw;
+    background-image: url("/src/assets/banner.png");
+    background-size: 14vw 3vw;
+    font-family: CustomFont, system-ui;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 .5vw .5vw black ;
+    border-radius: .3vw;
+    backface-visibility: hidden;-webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.disconnect-button div {
+    color: #222;
+    position: relative;
+    font-size: 2vw;
+    font-weight: bold;
+}

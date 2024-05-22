@@ -21,6 +21,7 @@ import GameButton from "../components/GameButton";
 import {useNavigate} from "react-router-dom";
 import {Simulate} from "react-dom/test-utils";
 import play = Simulate.play;
+import DisconnectButton from "../components/DisconnectButton";
 
 const GamePage = () => {
   const [gameState, setGameState] = useContext(GameStateContext);
@@ -30,8 +31,9 @@ const GamePage = () => {
   const navigate = useNavigate();
 
     useEffect(() => {
-
-        connectToLast();
+        if (player.id === -1) {
+          connectToLast();
+        }
 
     }, []);
 
@@ -59,6 +61,7 @@ const GamePage = () => {
       <PlayerList/>
       <GameButton/>
       <ChangeRole/>
+      <DisconnectButton/>
 
       {/*Under Construction*/}
       {/*<GameChat/>*/}
