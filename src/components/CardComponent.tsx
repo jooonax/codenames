@@ -51,8 +51,15 @@ const CardComponent = ({card}: Props) => {
 
     if (newGameState.cards.filter(c => c.color === "BLUE" && !c.flipped).length == 0 ||
       newGameState.cards.filter(c => c.color === "RED" && !c.flipped).length == 0 || card.color === "BLACK") {
+      if (card.color === "BLACK") {
+        newGameState.winner = gameState.turn === "RED" ? "BLUE" : "RED";
+      } else {
+        newGameState.winner = newGameState.cards.filter(c => c.color === "BLUE" && !c.flipped).length == 0 ? "BLUE" : "RED";
+      }
       newGameState.cards = [];
       newGameState.started = false;
+      newGameState.turn = "NONE";
+      newGameState.clue = undefined;
     }
 
     setGameState(newGameState)
