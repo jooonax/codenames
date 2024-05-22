@@ -62,17 +62,14 @@ const GamePage = () => {
       <GameButton/>
       <ChangeRole/>
       <DisconnectButton/>
+      <GameChat/>
+      <ClueInput/>
 
       {/*Under Construction*/}
-      {/*<GameChat/>*/}
-      <ClueInput/>
-      {!gameState.started && <>
 
+      {!gameState.started && <>
           <strong>{gameState.winner} won the last game</strong>
       </>}
-        <div className="game-chat">
-            <GameChat/>
-        </div>
     </div>
   );
 };

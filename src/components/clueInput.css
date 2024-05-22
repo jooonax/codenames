@@ -56,6 +56,7 @@
     top: -2vw;
     box-shadow: 0 -.1vw .2vw black ;
     border-radius: .3vw .3vw 0 0;
+    cursor: pointer;
 }
 
 /*
