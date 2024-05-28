@@ -1,7 +1,7 @@
 interface ChatMessage {
   sender: Player;
   message?: string;
-  receivers: string;
+  target: Player;
   date: string;
 }
 
@@ -12,6 +12,7 @@ type GameState = {
   turn: "NONE" | "RED" | "BLUE";
   started: boolean;
   clue?: Clue;
+  intercept?: Clue;
   flippedCount: number;
   winner: "NONE" | "RED" | "BLUE";
 }

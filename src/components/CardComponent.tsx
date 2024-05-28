@@ -45,6 +45,7 @@ const CardComponent = ({card}: Props) => {
         ),
       flippedCount: nextTurn ? 0 : gameState.flippedCount+1,
       clue: nextTurn ? undefined : gameState.clue,
+      intercept: nextTurn ? undefined : gameState.intercept,
       turn: nextTurn ? (gameState.turn === "RED" ? "BLUE" : "RED") : gameState.turn,
 
     }
@@ -56,10 +57,10 @@ const CardComponent = ({card}: Props) => {
       } else {
         newGameState.winner = newGameState.cards.filter(c => c.color === "BLUE" && !c.flipped).length == 0 ? "BLUE" : "RED";
       }
-      newGameState.cards = [];
       newGameState.started = false;
       newGameState.turn = "NONE";
       newGameState.clue = undefined;
+      newGameState.intercept = undefined;
     }
 
     setGameState(newGameState)

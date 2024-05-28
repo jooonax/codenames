@@ -2,7 +2,7 @@ import React, {CSSProperties, useContext, useEffect, useState} from 'react';
 import gameChatContext from "../context/GameChatContext";
 import playerContext from "../context/PlayerContext";
 import './GameChat.css';
-import {ChatMessage} from "../common/models";
+import {ChatMessage, Player} from "../common/models";
 import GameStateContext from "../context/GameStateContext";
 import gameStateContext from "../context/GameStateContext";
 
@@ -11,14 +11,13 @@ const GameChat = () => {
     const [player] = useContext(playerContext);
     const [gameState, setGameState] = useContext(gameStateContext);
     const [message, setMessage] = useState<string>("");
-    const parameters: string[] = [];
 
     const handleSendMessage = () => {
         if (message.trim()) {
             sendMessage({
                 date: new Date().toISOString(),
                 sender: player,
-                receivers: parameters.join(","),
+                target: { username: "", id: -1, roomCode: "", team: "NONE", role: "NONE"} as Player,
                 message: message
             });
             setMessage("");
@@ -36,12 +35,6 @@ const GameChat = () => {
         if (m.sender.team === "NONE") return {};
         return {
             backgroundImage: 'url("/src/assets/back-'+ m.sender.team.toLowerCase() +'.png")'
-        }
-    }
-    const getRoleStyle = (m: ChatMessage): CSSProperties => {
-        if (m.sender.role === "NONE") return {};
-        return {
-            backgroundImage: 'url("/src/assets/'+ (m.sender.role === "MASTER" ? "duke" : "rouge") +'.png")'
         }
     }
 
@@ -90,10 +83,9 @@ const GameChat = () => {
             <div className="chat-messages" id="chatMessages" style={getMessagesHeightStyle()}>
                 {chat.map((m, i) => (
                     <div key={i} className="chat-message">
-                        <div className="chat-message-name"><div>{m.sender.username}</div></div>
-                        <div className="chat-message-text">{m.message}</div>
                         <div className="chat-message-team" style={getTeamStyle(m)}></div>
-                        <div className="chat-message-role" style={getRoleStyle(m)}></div>
+                        <div className="chat-message-name">{m.sender.username}:</div>
+                        <div className="chat-message-text">{m.message}</div>
                     </div>
                 ))}
             </div>
