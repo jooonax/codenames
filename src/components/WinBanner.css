@@ -1,0 +1,25 @@
+.win-banner {
+    backface-visibility: hidden;-webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none;
+    position: absolute;
+    top: 10vw;
+    left: 24vw;
+    width: 42vw;
+    height: 9vw;
+    background-image: url("/src/assets/banner.png");
+    background-size: 42vw 9vw;
+    font-family: CustomFont, system-ui;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 .5vw .5vw black ;
+    border-radius: .3vw;
+}
+
+.win-banner div {
+    color: #222;
+    position: relative;
+    font-size: 3vw;
+    font-weight: bold;
+}
